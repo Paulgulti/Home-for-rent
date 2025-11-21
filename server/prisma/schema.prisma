@@ -22,8 +22,9 @@ model User {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
-  accounts Account[]
-  sessions Session[]
+  accounts   Account[]
+  sessions   Session[]
+  properties Property[]
 
   @@map("user")
 }
@@ -72,4 +73,20 @@ model Verification {
   updatedAt  DateTime @updatedAt
 
   @@map("verification")
+}
+
+model Property {
+  id                 String   @id @default(cuid())
+  ownerId            String
+  description        String
+  price              Int
+  priceNegotiability String
+  phoneNumber        String
+  propertyImg        String
+  location           String
+  status             Boolean
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  owner User @relation(fields: [ownerId], references: [id], onDelete: Cascade)
 }

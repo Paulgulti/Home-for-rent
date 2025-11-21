@@ -1,0 +1,14 @@
+###
+GET http://localhost:8080/api/properties
+
+###
+POST http://localhost:8080/api/properties
+Content-Type: application/json
+
+{
+    "price": "18000",
+    "priceNegotiability": "false",
+    "location": "Semit",
+    "phoneNumber": "0923786489",
+    "imageUrl": "jhgfghkjhghjhgvjkh"
+}

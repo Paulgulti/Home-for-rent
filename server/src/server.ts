@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express'
 import { toNodeHandler } from "better-auth/node";
 import { auth } from "./lib/auth";
 import cors from 'cors'
+import propertyRoutes from '../src/routes/propertyRoutes'
 
 
 const app = express()
@@ -23,6 +24,7 @@ app.get('/', (req: Request, res: Response) => {
     res.json({ "fruits": ["Apple", "Banana", "Strawberry"] })
 })
 
+app.use('/api/properties', propertyRoutes)
 
 app.listen(8080, () => {
     console.log('Server is running on Port 8080.');

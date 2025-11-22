@@ -33,6 +33,9 @@ const Owner = () => {
                     body: formData,
                 }
             );
+            if (!response.ok) {
+                throw new Error('unknown error')
+            }
             const data = await response.json()
             return data.secure_url
         } catch (error) {
@@ -124,7 +127,9 @@ const Owner = () => {
                         />
                         {/* modal content (kept sharp above the blurred backdrop) */}
                         <div className="relative z-50 w-[300px] md:w-[450px]  max-w-full ">
-                            <div onClick={() => {
+                            <Button 
+                            disabled={loading}
+                            onClick={() => {
                                 setHouseDescription('')
                                 setPrice(0)
                                 setLocation('')
@@ -136,7 +141,7 @@ const Owner = () => {
                             }}
                                 className="text-red-400 text-end">
                                 close
-                            </div>
+                            </Button>
                             <div className="bg-white border  p-4 rounded shadow">
                                 {success ? (
                                     <div>

@@ -26,7 +26,7 @@ const Header = () => {
             <div className='border shadow-3xl flex justify-between items-center'>
                 <Link to="/">K</Link>
                 <div className='flex gap-2 md:gap-4'>
-                    <Link className='text-sm' to="/about">About</Link>
+                    <Link className='text-sm' to="/properties">Properties</Link>
                     <Link className='text-sm' to="/dashboard">Dashboard</Link>
                     <Link className='text-sm' to="/owner">Owner</Link>
                 </div>

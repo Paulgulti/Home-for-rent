@@ -12,3 +12,6 @@ Content-Type: application/json
     "phoneNumber": "0923786489",
     "imageUrl": "jhgfghkjhghjhgvjkh"
 }
+
+###
+GET http://localhost:8080/api/properties/gggg

@@ -1,4 +1,4 @@
-import type { PropertyList } from "@/Home"
+import type { PropertyList } from "@/types"
 import { Link } from "react-router"
 
 const HouseCard = ({ houses }: { houses: PropertyList }) => {
@@ -15,7 +15,7 @@ const HouseCard = ({ houses }: { houses: PropertyList }) => {
               <p className="text-xs lg:text-sm line-clamp-2">{house.description}</p>
               <p className="text-xs lg:text-sm"><span className="font-bold">{house.price}</span>ETB/month</p>
               <p className="text-xs lg:text-sm">{house.location}</p>
-              <Link className="text-xs lg:text-sm font-semibold" to={`/home/1`}>See more</Link>
+              <Link className="text-xs lg:text-sm font-semibold" to={`/properties/${house.id}`}>See more</Link>
             </div>
           </div>
         ))

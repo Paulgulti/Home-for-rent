@@ -4,8 +4,8 @@ import Signup from './auth/Signup'
 import Login from './auth/Login'
 import Header from './Header'
 import Owner from './owner/Owner'
-import Property from './property/Property'
 import Home from './Home'
+import PropertyDetail from './property/PropertyDetail'
 
 function App() {
 
@@ -17,7 +17,7 @@ function App() {
           <Route path="/properties" element={<Properties />} />
           <Route path="/owner" element={<Owner />} />
           <Route path="/dashboard" />
-          <Route path="properties/:propertyId" element={<Property />} />
+          <Route path="properties/:propertyId" element={<PropertyDetail />} />
         </Route>
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />

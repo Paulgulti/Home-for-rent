@@ -1,60 +1,41 @@
+import { fetchPropertyDetail } from "@/apis"
 import { timeAgo } from "@/lib/utils"
-import { PropertySchema, type Property } from "@/types"
-import { useEffect, useState } from "react"
+import { useQuery } from "@tanstack/react-query"
+import { useState } from "react"
 import { useParams } from "react-router"
 
 const PropertyDetail = () => {
-  const [property, setProperty] = useState<Property>()
-  const [publishedDate, setPublishedDate] = useState<string>()
-  const [loading, setLoading] = useState<boolean>(false)
-  const [error, setError] = useState<string | null>(null)
   const [favourite, setFavourite] = useState<boolean>(false)
 
-  const params = useParams()
-  async function fetchProperty() {
-    setLoading(true)
-    try {
-      const res = await fetch(`http://localhost:8080/api/properties/${params.propertyId}`)
-      if (!res.ok) {
-        throw new Error(`Server error ${res.status}`)
-      }
-      const data = await res.json()
-      const parsedData = PropertySchema.safeParse(data)
-      if (!parsedData.success) {
-        console.error(parsedData.error)
-        setError('Invalid data received')
-        return
-      }
-      setProperty(parsedData.data)
-      const date = timeAgo(parsedData.data.createdAt)
-      setPublishedDate(date)
-    } catch (error) {
-      console.error(error)
-      setError(error instanceof Error ? error.message : 'Unknown error please refresh')
-    } finally {
-      setLoading(false)
-    }
+  const { propertyId } = useParams()
+
+  const { data: property, isError, isLoading, error } = useQuery({
+    queryKey: ['propertyDetail'],
+    queryFn: () => fetchPropertyDetail(propertyId!)
+  })
+
+
+  function publishedDate(dateStr: string) {
+    const date = timeAgo(dateStr)
+    return date
   }
 
-  useEffect(() => {
-    fetchProperty()
-  }, [])
   return (
     <div>
-      {loading ? (
+      {isLoading ? (
         <div className="flex justify-center items-center h-screen w-full">
           <svg
             className="w-10 h-10 animate-spin "
             viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="none" >
             <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
             <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
-            <g id="SVGRepo_iconCarrier"> <g fill="#000000" fill-rule="evenodd" clip-rule="evenodd"> <path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8z" opacity=".2"></path> <path d="M7.25.75A.75.75 0 018 0a8 8 0 018 8 .75.75 0 01-1.5 0A6.5 6.5 0 008 1.5a.75.75 0 01-.75-.75z"></path> </g> </g>
+            <g id="SVGRepo_iconCarrier"> <g fill="#000000" fillRule="evenodd" clipRule="evenodd"> <path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8z" opacity=".2"></path> <path d="M7.25.75A.75.75 0 018 0a8 8 0 018 8 .75.75 0 01-1.5 0A6.5 6.5 0 008 1.5a.75.75 0 01-.75-.75z"></path> </g> </g>
           </svg>
         </div>
       ) : (
         <div>
-          {error ? (
-            <div>{error}</div>
+          {isError ? (
+            <div>{error.message}</div>
           ) : (
             < div className="mt-4 w-[270px] md:w-[500px] border mx-auto text-sm md:text-[16px]">
               <div>
@@ -65,7 +46,7 @@ const PropertyDetail = () => {
                 <div className="flex items-center">
                   <svg
                     className="w-3 h-3"
-                    version="1.0" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 64 64" enable-background="new 0 0 64 64" xmlSpace="preserve" fill="#000000">
+                    version="1.0" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 64 64" enableBackground="new 0 0 64 64" xmlSpace="preserve" fill="#000000">
                     <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
                     <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
                     <g id="SVGRepo_iconCarrier"> <g> <path fill="#231F20" d="M32,0C18.745,0,8,10.745,8,24c0,5.678,2.502,10.671,5.271,15l17.097,24.156C30.743,63.686,31.352,64,32,64 s1.257-0.314,1.632-0.844L50.729,39C53.375,35.438,56,29.678,56,24C56,10.745,45.255,0,32,0z M32,38c-7.732,0-14-6.268-14-14 s6.268-14,14-14s14,6.268,14,14S39.732,38,32,38z"></path> <path fill="#231F20" d="M32,12c-6.627,0-12,5.373-12,12s5.373,12,12,12s12-5.373,12-12S38.627,12,32,12z M32,34 c-5.523,0-10-4.478-10-10s4.477-10,10-10s10,4.478,10,10S37.523,34,32,34z"></path> </g>
@@ -93,7 +74,7 @@ const PropertyDetail = () => {
                     <p>{property?.phoneNumber}</p>
                   </div>
                   <div className="flex flex-col">
-                    <p className="text-end">Posted: {publishedDate}</p>
+                    <p className="text-end text-xs md:text-[16px]">Posted: {publishedDate(property?.createdAt!)}</p>
                     {property?.status ? (
                       <p className="text-sm text-end">Status: <span className="font-bold">Rented</span></p>
                     ) : (

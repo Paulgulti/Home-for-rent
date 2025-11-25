@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button"
-import HouseCard from "./HouseCard"
 import { useState, type FormEvent } from "react"
 import { Input } from "@/components/ui/input"
 
@@ -21,7 +20,10 @@ const Owner = () => {
     const uploadImage = async () => {
         try {
             console.log(image);
-            if (!image) return
+            if (!image) {
+                setError("Please upload picture of the property")
+                return
+            }
             const formData = new FormData();
             formData.append("file", image);
             formData.append("upload_preset", "mnmdsuzg");
@@ -34,12 +36,13 @@ const Owner = () => {
                 }
             );
             if (!response.ok) {
-                throw new Error('unknown error')
+                setError('Network error')
             }
             const data = await response.json()
             return data.secure_url
         } catch (error) {
             console.error(error)
+            setError(error instanceof Error ? error.message : 'Unknown error')
         }
     }
 
@@ -71,7 +74,7 @@ const Owner = () => {
 
             const uploadedUrl = await uploadImage()
             if (!uploadedUrl) {
-                throw new Error("Please upload picture of the house")
+                throw new Error("Couldn't get image file!")
             }
 
             const post = await fetch(`${baseApiEndpoint}/properties`, {
@@ -127,18 +130,18 @@ const Owner = () => {
                         />
                         {/* modal content (kept sharp above the blurred backdrop) */}
                         <div className="relative z-50 w-[300px] md:w-[450px]  max-w-full ">
-                            <Button 
-                            disabled={loading}
-                            onClick={() => {
-                                setHouseDescription('')
-                                setPrice(0)
-                                setLocation('')
-                                setPhoneNumber(null)
-                                setImageUrl(null)
-                                setPostingModalPop(false)
-                                setSuccess(false)
-                                setError(null)
-                            }}
+                            <Button
+                                disabled={loading}
+                                onClick={() => {
+                                    setHouseDescription('')
+                                    setPrice(0)
+                                    setLocation('')
+                                    setPhoneNumber(null)
+                                    setImageUrl(null)
+                                    setPostingModalPop(false)
+                                    setSuccess(false)
+                                    setError(null)
+                                }}
                                 className="text-red-400 text-end">
                                 close
                             </Button>

@@ -8,6 +8,7 @@ import { fetchProperties } from "./apis"
 const Properties = () => {
 
   const { getParams, updateParams } = useQueryParams()
+
   const page = Math.max(1, parseInt(getParams('page', '1'), 10) || 1)
   const limit = Math.max(1, parseInt(getParams('limit', '10'), 10) || 10)
   const goToPage = (newPage: number) => {

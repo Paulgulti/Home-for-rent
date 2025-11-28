@@ -1,12 +1,12 @@
 import { fetchPropertyDetail } from "@/apis"
 import { timeAgo } from "@/lib/utils"
+import useFavPropertyStore from "@/stores/favouriteProperty"
 import { useQuery } from "@tanstack/react-query"
-import { useState } from "react"
 import { useParams } from "react-router"
 
 const PropertyDetail = () => {
-  const [favourite, setFavourite] = useState<boolean>(false)
-
+  const { favourites, addToFav, removeFromFav } = useFavPropertyStore()
+  console.log(favourites);
   const { propertyId } = useParams()
 
   const { data: property, isError, isLoading, error } = useQuery({
@@ -83,21 +83,22 @@ const PropertyDetail = () => {
                   </div>
                 </div>
                 <div className="">
-                  {favourite ? (
+                  {favourites.find(fav => fav.id === property?.id) ? (
                     <svg
-                      className="w-5 h-5"
-                      fill="#c92c2c" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 370 370" xmlSpace="preserve" stroke="#c92c2c">
+                      onClick={() => removeFromFav(property?.id!)}
+                      className="w-5 h-5 cursor-pointer"
+                      viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
                       <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
-                      <g id="SVGRepo_iconCarrier"> <path d="M339.266,65.896c-19.837-19.828-46.206-30.748-74.254-30.748c-16.248,0-31.708,3.528-45.949,10.487l-34.059,16.648 l-34.07-16.653c-14.237-6.955-29.694-10.483-45.939-10.483c-28.051,0-54.427,10.926-74.273,30.767 c-19.649,19.652-30.56,45.805-30.72,73.64c-0.16,27.803,10.422,54.059,29.798,73.93c0.824,0.845,1.68,1.662,2.565,2.441 l121.031,106.963c9.026,7.976,20.316,11.965,31.606,11.965c11.29,0,22.58-3.989,31.606-11.965l121.043-106.972 c0.888-0.787,1.748-1.602,2.576-2.454c19.365-19.874,29.939-46.127,29.772-73.93C369.831,111.702,358.92,85.555,339.266,65.896z"></path> </g>
+                      <g id="SVGRepo_iconCarrier"> <path d="M15.0309 3.30271C13.0299 2.8991 10.9701 2.8991 8.96913 3.30271C6.66186 3.76809 5 5.82231 5 8.20894V18.6292C5 20.4579 6.9567 21.596 8.51221 20.6721L11.3451 18.9895C11.7496 18.7492 12.2504 18.7492 12.6549 18.9895L15.4878 20.6721C17.0433 21.596 19 20.4579 19 18.6292V8.20894C19 5.82231 17.3381 3.76809 15.0309 3.30271Z" fill="#c92c2c"></path> </g>
                     </svg>
                   ) : (
                     <svg
-                      className="h-5 w-5"
-                      version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 249.3 249.3" xmlSpace="preserve" fill="#c92c2c">
-                      <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+                      onClick={() => addToFav(property!)}
+                      className="h-5 w-5 hover:cursor-pointer"
+                      viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
                       <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
-                      <g id="SVGRepo_iconCarrier"> <path d="M249.183,88.644c-0.94-17.571-8.379-34.07-20.947-46.458c-12.756-12.574-29.414-19.499-46.904-19.499 c-26.191,0-44.735,20.23-54.697,31.099c-0.567,0.618-1.176,1.282-1.771,1.924c-0.319-0.362-0.636-0.723-0.938-1.067 C114.82,44.27,95.87,22.687,67.972,22.687c-17.49,0-34.147,6.925-46.903,19.499C8.5,54.574,1.061,71.073,0.121,88.644 c-0.934,17.467,3.507,32.624,14.396,49.146c9.759,14.811,35.173,38.228,53.97,53.78c19.32,15.986,44.767,35.042,56.272,35.042 c11.686,0,37.043-19.016,56.256-34.968c18.651-15.485,43.925-38.883,53.775-53.86C242.119,126.64,250.379,110.983,249.183,88.644z M222.258,129.542c-7.157,10.885-27.331,30.995-50.201,50.044c-27.269,22.714-43.414,31.666-47.286,32.022 c-3.866-0.403-20.051-9.445-47.453-32.201c-23.004-19.104-43.208-39.146-50.276-49.871c-9.011-13.672-12.694-26.036-11.943-40.092 c1.527-28.539,25.246-51.758,52.872-51.758c21.107,0,36.443,17.468,44.683,26.851c4.844,5.518,7.513,8.557,11.999,8.557 c4.631,0,7.618-3.259,13.04-9.174c8.994-9.813,24.047-26.234,43.639-26.234c27.627,0,51.345,23.219,52.873,51.758 C234.965,103.659,231.392,115.652,222.258,129.542z"></path> </g>
+                      <g id="SVGRepo_iconCarrier"> <path d="M18.5 18.8637V8.07579C18.5 5.99472 17.0378 4.20351 15.0077 3.7977C13.022 3.40077 10.978 3.40077 8.99225 3.7977C6.96219 4.20351 5.5 5.99472 5.5 8.07579V18.8637C5.5 20.1258 6.8627 20.9113 7.94601 20.2737L10.9053 18.5317C11.5814 18.1337 12.4186 18.1337 13.0947 18.5317L16.054 20.2737C17.1373 20.9113 18.5 20.1258 18.5 18.8637Z" fill="#c92c2c" fillOpacity="0.15" stroke="#c92c2c" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path> </g>
                     </svg>
                   )}
                 </div>

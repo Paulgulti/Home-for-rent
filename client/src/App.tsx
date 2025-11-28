@@ -6,6 +6,7 @@ import Header from './Header'
 import Owner from './owner/Owner'
 import Home from './Home'
 import PropertyDetail from './property/PropertyDetail'
+import Dashboard from './dashboard/Dashboard'
 
 function App() {
 
@@ -16,7 +17,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/properties" element={<Properties />} />
           <Route path="/owner" element={<Owner />} />
-          <Route path="/dashboard" />
+          <Route path="/dashboard" element={<Dashboard/>}/>
           <Route path="properties/:propertyId" element={<PropertyDetail />} />
         </Route>
         <Route path="/signup" element={<Signup />} />

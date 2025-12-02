@@ -7,6 +7,7 @@ import Owner from './owner/Owner'
 import Home from './Home'
 import PropertyDetail from './property/PropertyDetail'
 import Dashboard from './dashboard/Dashboard'
+import Profile from './profile/Profile'
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
           <Route path="/owner" element={<Owner />} />
           <Route path="/dashboard" element={<Dashboard/>}/>
           <Route path="properties/:propertyId" element={<PropertyDetail />} />
+          <Route path="/:profileId" element={<Profile />} />
         </Route>
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />

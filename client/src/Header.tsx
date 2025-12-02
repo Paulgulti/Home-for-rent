@@ -43,6 +43,7 @@ const Header = () => {
                         {openUser && (
                             <div className="absolute top-full right-0 mt-2 p-2 bg-white border rounded shadow">
                                 <p className="text-sm">{session?.user.name}</p>
+                                <Link to={`/${session.user.id}`} >Profile</Link>
                                 <p className="text-xs text-gray-600">{session?.user.email}</p>
                                 <button className="mt-2 text-sm text-red-600" onClick={signout}>Sign out</button>
                             </div>

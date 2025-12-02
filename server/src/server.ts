@@ -21,8 +21,8 @@ app.use(express.json());
 
 
 app.get('/', (req: Request, res: Response) => {
-    res.json({ "fruits": ["Apple", "Banana", "Strawberry"] })
-})
+    res.status(200).json({ message: 'Server is running',  });
+});
 
 app.use('/api/properties', propertyRoutes)
 

@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button"
 import { useState, type FormEvent } from "react"
 import { Input } from "@/components/ui/input"
+import { authClient } from "@/lib/auth-client"
+import { useNavigate } from "react-router"
 
 const Owner = () => {
     const [postingModalPop, setPostingModalPop] = useState<boolean>(false)
@@ -16,6 +18,15 @@ const Owner = () => {
     const [success, setSuccess] = useState<boolean>(false)
 
     const baseApiEndpoint = 'http://localhost:8080/api'
+
+    const navigate = useNavigate()
+    const { data: session, error } = authClient.useSession()
+
+    function openPropertyForm() {
+        if (!session?.user || error) {
+            navigate('/signup')
+        } else setPostingModalPop(true)
+    }
 
     const uploadImage = async () => {
         try {
@@ -121,7 +132,7 @@ const Owner = () => {
             <div className="flex items-center">
                 <p>You want to post a house?</p>
 
-                <Button className="" variant='link' onClick={() => setPostingModalPop(true)}>Click here</Button>
+                <Button className="" variant='link' onClick={openPropertyForm}>Click here</Button>
                 {postingModalPop &&
                     <div className="fixed inset-0 z-40 flex items-center justify-center">
                         {/* blurred backdrop (click to close) */}

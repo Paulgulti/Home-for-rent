@@ -4,13 +4,13 @@ import { Button } from "./components/ui/button"
 import { keepPreviousData, useQuery } from "@tanstack/react-query"
 import { fetchProperties } from "./apis"
 
-
 const Properties = () => {
 
   const { getParams, updateParams } = useQueryParams()
 
   const page = Math.max(1, parseInt(getParams('page', '1'), 10) || 1)
   const limit = Math.max(1, parseInt(getParams('limit', '10'), 10) || 10)
+
   const goToPage = (newPage: number) => {
     updateParams("page", String(newPage));
   };
@@ -20,7 +20,7 @@ const Properties = () => {
     queryFn: () => fetchProperties(page, limit),
     staleTime: 5 * 60 * 1000,
     placeholderData: keepPreviousData
-  })
+  })  
 
   return (
     <div className="mt-4">
@@ -39,9 +39,8 @@ const Properties = () => {
         isError ? (
           <div>Error: {error.message}</div>
         ) : (
-
           <div>
-            <div className=" grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+            <div className="grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
               <HouseCard houses={pageData.data} />
             </div>
             {/* Pagination Controls */}

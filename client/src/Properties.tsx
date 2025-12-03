@@ -20,7 +20,7 @@ const Properties = () => {
     queryFn: () => fetchProperties(page, limit),
     staleTime: 5 * 60 * 1000,
     placeholderData: keepPreviousData
-  })  
+  })
 
   return (
     <div className="mt-4">
@@ -37,7 +37,18 @@ const Properties = () => {
         </div>
       ) : (
         isError ? (
-          <div>Error: {error.message}</div>
+          <div className="flex h-screen justify-center items-center">
+            <div className="flex flex-col items-center">
+              <svg viewBox="0 -0.5 17 17" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" className="w-25 h-25 md:w-50 md:h-50 si-glyph si-glyph-folder-error" fill="#000000">
+                <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+                <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
+                <g id="SVGRepo_iconCarrier"> <title>938</title> <defs> </defs> <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
+                  <g transform="translate(1.000000, 2.000000)" fill="#434343"> <path d="M7.35,3 L5.788,0.042 L2.021,0.042 L2.021,1.063 L0.023,1.063 L0.023,10.976 L1.043,10.976 L1.045,11.976 L15.947,11.976 L15.968,3 L7.35,3 L7.35,3 Z M10.918,9.109 L10.09,9.938 L8.512,8.361 L6.934,9.938 L6.104,9.109 L7.682,7.531 L6.104,5.953 L6.934,5.125 L8.512,6.701 L10.088,5.125 L10.918,5.953 L9.34,7.531 L10.918,9.109 L10.918,9.109 Z" className="si-glyph-fill"> </path>
+                    <path d="M13.964,1.982 L13.964,1.042 L8.024,1.042 L8.354,1.982 L13.964,1.982 Z" className="si-glyph-fill"> </path> </g> </g> </g>
+              </svg>
+              <p className="text-sm text-red-400 md:text-[16px]">{error.message}</p>
+            </div>
+          </div>
         ) : (
           <div>
             <div className="grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">

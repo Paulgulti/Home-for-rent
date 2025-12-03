@@ -5,7 +5,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function timeAgo(dateString: string): string {
+function timeAgo(dateString: string): string {
   const rtf = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
   const date = new Date(dateString);
   const now = new Date();
@@ -29,4 +29,9 @@ export function timeAgo(dateString: string): string {
   }
 
   return "just now";
+}
+
+export function publishedDate(dateStr: string) {
+  const date = timeAgo(dateStr)
+  return date
 }

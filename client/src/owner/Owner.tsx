@@ -3,6 +3,8 @@ import { useState, type FormEvent } from "react"
 import { Input } from "@/components/ui/input"
 import { authClient } from "@/lib/auth-client"
 import { useNavigate } from "react-router"
+import { toast, ToastContainer } from "react-toastify"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 const Owner = () => {
     const [postingModalPop, setPostingModalPop] = useState<boolean>(false)
@@ -20,6 +22,7 @@ const Owner = () => {
     const baseApiEndpoint = 'http://localhost:8080/api'
 
     const navigate = useNavigate()
+    const queryClient = useQueryClient()
     const { data: session, error } = authClient.useSession()
 
     function openPropertyForm() {
@@ -56,7 +59,6 @@ const Owner = () => {
             setError(error instanceof Error ? error.message : 'Unknown error')
         }
     }
-
 
     async function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -126,6 +128,17 @@ const Owner = () => {
         }
     }
 
+    const uploadMutation = useMutation({
+        mutationFn: handleSubmit,
+        onSuccess: async () => {
+            await Promise.all([
+                queryClient.invalidateQueries({ queryKey: ['userProperties'] }),
+                queryClient.invalidateQueries({ queryKey: ['allProperties'] }),
+            ]),
+                toast("You have successfully posted your property")
+        }
+    })
+
     return (
         <div className="mt-4">
             {/* {New property to post} */}
@@ -166,7 +179,7 @@ const Owner = () => {
                                 ) : (
 
                                     <form
-                                        onSubmit={handleSubmit}
+                                        onSubmit={uploadMutation.mutate}
                                         className="flex flex-col gap-2 text-sm">
                                         <Input
                                             type="text"
@@ -252,6 +265,7 @@ const Owner = () => {
                 <HouseCard />
                 <HouseCard /> */}
             </div>
+            <ToastContainer />
         </div>
     )
 }

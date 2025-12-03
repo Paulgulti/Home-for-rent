@@ -67,6 +67,9 @@ router.get('/:propertyId', async (req: Request, res: Response) => {
         const property = await prisma.property.findUnique({
             where: { id: propertyId }
         })
+        if (!property) {
+            return res.status(404).json({ message: "Couldn't find this file"})
+        }
         res.status(200).json(property)
     } catch (error) {
         console.log(error);
@@ -86,7 +89,7 @@ router.get('/user/:userId', requireAuth, async (req: Request, res: Response) => 
                 ownerId: session.user.id
             }
         });
-        
+
         res.status(200).json(posts)
     } catch (error) {
         console.log(error);
@@ -97,7 +100,7 @@ router.get('/user/:userId', requireAuth, async (req: Request, res: Response) => 
 // DELETE property by id http://localhost:8080/api/properties/:propertyId
 
 router.delete('/property/:propertyId', requireAuth, async (req: Request, res: Response) => {
-    const { propertyId } = req.params    
+    const { propertyId } = req.params
     try {
         const session = (req as any).session
         const result = await prisma.property.deleteMany({
@@ -109,8 +112,31 @@ router.delete('/property/:propertyId', requireAuth, async (req: Request, res: Re
         if (result.count === 0) {
             return res.status(404).json({ message: 'Property not found or not owned by you' })
         }
-        
+
         res.status(200).json({ message: 'Property successfully deleted' })
+    } catch (error) {
+        console.log(error);
+        res.sendStatus(503)
+    }
+})
+
+// EDIT(PUT) property by id http://localhost:8080/api/properties/:propertyId
+
+router.put('/property', requireAuth, async (req: Request, res: Response) => {
+    const property = req.body
+    try {
+        const session = (req as any).session
+        const result = await prisma.property.update({
+            where: {
+                id: property.id,
+                ownerId: session.user.id
+            },
+            data: {
+                ...property,
+                status: !property.status
+            }
+        });
+        res.status(200).json({ message: "Successfully updated status" })
     } catch (error) {
         console.log(error);
         res.sendStatus(503)

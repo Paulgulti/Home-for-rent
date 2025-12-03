@@ -1,8 +1,10 @@
 import { fetchPropertyDetail } from "@/apis"
-import { timeAgo } from "@/lib/utils"
+import { publishedDate } from "@/lib/utils"
 import useFavPropertyStore from "@/stores/favouriteProperty"
 import { useQuery } from "@tanstack/react-query"
 import { useParams } from "react-router"
+
+
 
 const PropertyDetail = () => {
   const { favourites, addToFav, removeFromFav } = useFavPropertyStore()
@@ -13,12 +15,6 @@ const PropertyDetail = () => {
     queryKey: ['propertyDetail'],
     queryFn: () => fetchPropertyDetail(propertyId!)
   })
-
-
-  function publishedDate(dateStr: string) {
-    const date = timeAgo(dateStr)
-    return date
-  }
 
   return (
     <div>
@@ -35,17 +31,28 @@ const PropertyDetail = () => {
       ) : (
         <div>
           {isError ? (
-            <div>{error.message}</div>
+            <div className="flex h-screen justify-center items-center">
+              <div className="flex flex-col items-center">
+                <svg viewBox="0 -0.5 17 17" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" className="w-25 h-25 md:w-50 md:h-50 si-glyph si-glyph-folder-error" fill="#000000">
+                  <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+                  <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
+                  <g id="SVGRepo_iconCarrier"> <title>938</title> <defs> </defs> <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
+                    <g transform="translate(1.000000, 2.000000)" fill="#434343"> <path d="M7.35,3 L5.788,0.042 L2.021,0.042 L2.021,1.063 L0.023,1.063 L0.023,10.976 L1.043,10.976 L1.045,11.976 L15.947,11.976 L15.968,3 L7.35,3 L7.35,3 Z M10.918,9.109 L10.09,9.938 L8.512,8.361 L6.934,9.938 L6.104,9.109 L7.682,7.531 L6.104,5.953 L6.934,5.125 L8.512,6.701 L10.088,5.125 L10.918,5.953 L9.34,7.531 L10.918,9.109 L10.918,9.109 Z" className="si-glyph-fill"> </path>
+                      <path d="M13.964,1.982 L13.964,1.042 L8.024,1.042 L8.354,1.982 L13.964,1.982 Z" className="si-glyph-fill"> </path> </g> </g> </g>
+                </svg>
+                <p className="text-sm text-red-400 md:text-[16px]">{error.message}</p>
+              </div>
+            </div>
           ) : (
             < div className="mt-4 w-[270px] md:w-[500px] border mx-auto text-sm md:text-[16px]">
               <div>
                 <img className="h-[200px] md:h-[500px] w-full" src={property?.propertyImg} alt="" />
               </div>
-              <div className="px-1 md:px-2 my-2">
+              <div className="px-1 md:px-2 my-2 flex flex-col gap-1 md:gap-1.3">
                 <p className="">{property?.description}</p>
-                <div className="flex items-center">
+                <div className="flex items-center gap-1 md:gap-1.5">
                   <svg
-                    className="w-3 h-3"
+                    className="w-3 h-3 md:w-4 md:h-4"
                     version="1.0" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 64 64" enableBackground="new 0 0 64 64" xmlSpace="preserve" fill="#000000">
                     <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
                     <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>

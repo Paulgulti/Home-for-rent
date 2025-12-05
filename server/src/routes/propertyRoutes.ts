@@ -68,7 +68,7 @@ router.get('/:propertyId', async (req: Request, res: Response) => {
             where: { id: propertyId }
         })
         if (!property) {
-            return res.status(404).json({ message: "Couldn't find this file"})
+            return res.status(404).json({ message: "Couldn't find this file" })
         }
         res.status(200).json(property)
     } catch (error) {
@@ -120,7 +120,7 @@ router.delete('/property/:propertyId', requireAuth, async (req: Request, res: Re
     }
 })
 
-// EDIT(PUT) property by id http://localhost:8080/api/properties/:propertyId
+// EDIT(PUT) property status by id http://localhost:8080/api/properties/:propertyId
 
 router.put('/property', requireAuth, async (req: Request, res: Response) => {
     const property = req.body
@@ -137,6 +137,41 @@ router.put('/property', requireAuth, async (req: Request, res: Response) => {
             }
         });
         res.status(200).json({ message: "Successfully updated status" })
+    } catch (error) {
+        console.log(error);
+        res.sendStatus(503)
+    }
+})
+
+// EDIT(PUT) property contents by id http://localhost:8080/api/properties/edit
+
+router.put('/property/:id', requireAuth, async (req: Request, res: Response) => {
+    const {
+        id,
+        description,
+        location,
+        phoneNumber,
+        price,
+        priceNegotiability
+    } = req.body
+    try {
+        const session = (req as any).session
+        const result = await prisma.property.updateMany({
+            where: {
+                AND: [
+                    { id: id },
+                    { ownerId: session.user.id }
+                ]
+            },
+            data: {
+                description,
+                location,
+                phoneNumber,
+                price,
+                priceNegotiability
+            }
+        });
+        res.status(200).json({ message: "Successfully updated property information" })
     } catch (error) {
         console.log(error);
         res.sendStatus(503)

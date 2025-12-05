@@ -1,17 +1,19 @@
 import { deleteProperty, updateStatus } from '@/apis'
 import { Button } from '@/components/ui/button'
+import EditPropertyInfo from './EditPropertyInfo'
 import type { Property, PropertyList } from '@/types'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import { ToastContainer, toast } from 'react-toastify';
-
-
 
 const Profile = () => {
 
     const navigate = useNavigate()
     const queryClient = useQueryClient()
     const { userId } = useParams()
+    const [editFormPopup, setEditFormPopup] = useState<boolean>(false)
+    const [selectedProperty, setSelectedProperty] = useState<Property>();
 
     const { isPending, isError, error, data: userProperties } = useQuery({
         queryKey: ['userProperties'],
@@ -51,6 +53,12 @@ const Profile = () => {
         },
     })
 
+    function updatePropertyStatus(propertyId: string) {
+        setEditFormPopup(true)
+        const property = userProperties?.find(prop => prop.id === propertyId)
+        setSelectedProperty(property)
+    }
+
     return (
         <div>
             Profile page
@@ -89,7 +97,9 @@ const Profile = () => {
                             <div className='flex flex-col md:flex-row md:items-center md:gap-3'>
                                 <div className='flex gap-3'>
                                     <Button className='bg-red-500' onClick={() => deleteMutation.mutate(property.id)}>Delete</Button>
-                                    <Button>Edit</Button>
+                                    <Button
+                                        onClick={() => updatePropertyStatus(property.id)}>
+                                        Edit</Button>
                                     {property.status ? (
                                         <Button
                                             onClick={() => updateStatusMutation.mutate(property)}
@@ -102,6 +112,11 @@ const Profile = () => {
                                 </div>
                             </div>
                         </div>
+                        {editFormPopup && (
+                            <EditPropertyInfo
+                                setEditFormPopup={setEditFormPopup}
+                                selected={selectedProperty!} />
+                        )}
                     </div>
                 ))
             )}

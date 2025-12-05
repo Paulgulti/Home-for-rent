@@ -1,4 +1,4 @@
-import type { PaginatedPropertiesList, Property, PropertyList } from "./types"
+import type { PaginatedPropertiesList, Property, PropertyList, UpdatedProperty } from "./types"
 
 const baseApiEndpoint = `http://localhost:8080/api`
 
@@ -42,7 +42,7 @@ export async function deleteProperty(propertyId: string) {
         }
         const data = await res.json()
         return data
-        
+
     } catch (error) {
         throw error
     }
@@ -65,6 +65,26 @@ export async function updateStatus(property: Property) {
             throw new Error(`Failed: ${updatedProperty.statusText}, try again later`)
         }
 
+        const data = await updatedProperty.json()
+        return data
+    } catch (error) {
+        throw error
+    }
+}
+
+export async function updatePropertyInfo(property: UpdatedProperty) {
+    try {
+        const updatedProperty = await fetch(`http://localhost:8080/api/properties/property/:id`, {
+            method: 'PUT',
+            credentials: 'include',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(property)
+        });
+        if (!updatedProperty.ok) {
+            throw new Error(`${updatedProperty.statusText}, try again later`)
+        }
         const data = await updatedProperty.json()
         return data
     } catch (error) {

@@ -14,4 +14,4 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:8080/api/properties/gggg
+GET http://localhost:8080/api/properties/user/NjJQzKc6Gb9X9CBRP07xl6pRZETrwLUL

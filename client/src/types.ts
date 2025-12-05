@@ -15,11 +15,22 @@ export const PropertySchema = z.object({
 })
 export const ProperyArraySchema = z.array(PropertySchema)
 export const paginatedPropertiesSchema = z.object({
-    data: ProperyArraySchema,
-    page: z.number(),
-    limit: z.number(),
-    totalPages: z.number(),
+  data: ProperyArraySchema,
+  page: z.number(),
+  limit: z.number(),
+  totalPages: z.number(),
 })
 export type PaginatedPropertiesList = z.infer<typeof paginatedPropertiesSchema>
 export type Property = z.infer<typeof PropertySchema>
 export type PropertyList = z.infer<typeof ProperyArraySchema>
+
+const UpdatedPropertySchema = z.object({
+  id: z.string(),
+  description: z.string(),
+  price: z.number(),
+  priceNegotiability: z.string(),
+  phoneNumber: z.string(),
+  location: z.string(),
+})
+
+export type UpdatedProperty = z.infer<typeof UpdatedPropertySchema>

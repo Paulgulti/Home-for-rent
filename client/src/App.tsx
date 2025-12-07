@@ -1,13 +1,13 @@
 import { Route, Routes } from 'react-router'
-import Properties from './Properties'
+import Properties from './property/Properties'
 import Signup from './auth/Signup'
 import Login from './auth/Login'
-import Header from './Header'
-import Owner from './owner/Owner'
+// import Owner from './owner/Owner'
 import Home from './Home'
 import PropertyDetail from './property/PropertyDetail'
 import Dashboard from './dashboard/Dashboard'
 import Profile from './profile/Profile'
+import Header from './Header'
 
 function App() {
 
@@ -17,8 +17,8 @@ function App() {
         <Route element={<Header />}>
           <Route path="/" element={<Home />} />
           <Route path="/properties" element={<Properties />} />
-          <Route path="/owner" element={<Owner />} />
-          <Route path="/dashboard" element={<Dashboard/>}/>
+          {/* <Route path="/owner" element={<Owner />} /> */}
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="properties/:propertyId" element={<PropertyDetail />} />
           <Route path="/:profileId" element={<Profile />} />
         </Route>

@@ -68,7 +68,8 @@ const EditPropertyInfo = ({ setEditFormPopup, selected }: EditPropertyInfoProps)
 
 
     return (
-        <div className='fixed bg-black/50 min-h-screen z-10 w-screen flex justify-center items-center top-0 left-0'>
+        <div
+            className='py-20 fixed bg-black/50 min-h-screen z-10 w-screen flex justify-center items-center top-0 left-0' >
             <div className='bg-white p-4 relative w-[80%] md:w-[35%] max-h-[400px] md:max-h-full overflow-y-auto my-6 md:my-0 rounded-md md:rounded-xl'>
                 <button
                     className='cursor-pointer absolute top-2 right-2'
@@ -169,7 +170,7 @@ const EditPropertyInfo = ({ setEditFormPopup, selected }: EditPropertyInfoProps)
                 </form>
             </div>
             <ToastContainer />
-        </div>
+        </div >
     )
 }
 

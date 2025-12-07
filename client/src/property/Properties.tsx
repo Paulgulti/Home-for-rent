@@ -1,8 +1,8 @@
-import HouseCard from "./owner/HouseCard"
-import { useQueryParams } from "./useQueryParams"
-import { Button } from "./components/ui/button"
+import HouseCard from "../owner/HouseCard"
+import { useQueryParams } from "../useQueryParams"
+import { Button } from "../components/ui/button"
 import { keepPreviousData, useQuery } from "@tanstack/react-query"
-import { fetchProperties } from "./apis"
+import { fetchProperties } from "../apis"
 
 const Properties = () => {
 
@@ -23,7 +23,7 @@ const Properties = () => {
   })
 
   return (
-    <div className="mt-4">
+    <div className="py-10 mt-4">
       <p>Properties page</p>
       {isPending ? (
         <div className="flex justify-center items-center h-screen w-full">

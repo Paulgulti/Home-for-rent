@@ -60,7 +60,7 @@ const Profile = () => {
     }
 
     return (
-        <div>
+        <div className='py-10 md:py-15'>
             Profile page
             {/* {Own property} */}
 

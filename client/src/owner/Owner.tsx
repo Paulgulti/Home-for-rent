@@ -140,7 +140,7 @@ const Owner = () => {
     })
 
     return (
-        <div className="mt-4">
+        <div className="py-3 mt-4">
             {/* {New property to post} */}
             <div className="flex items-center">
                 <p>You want to post a house?</p>

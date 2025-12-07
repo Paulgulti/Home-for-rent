@@ -17,7 +17,7 @@ const PropertyDetail = () => {
   })
 
   return (
-    <div>
+    <div className="py-10">
       {isLoading ? (
         <div className="flex justify-center items-center h-screen w-full">
           <svg

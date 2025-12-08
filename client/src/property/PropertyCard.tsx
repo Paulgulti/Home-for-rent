@@ -1,24 +1,24 @@
+import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
 import { publishedDate } from "@/lib/utils"
 import useFavPropertyStore from "@/stores/favouriteProperty"
 import type { PropertyList } from "@/types"
 import { Link } from "react-router"
 import { property } from "zod"
 
-const HouseCard = ({ houses }: { houses: PropertyList }) => {
+const PropertyCard = ({ houses }: { houses: PropertyList }) => {
 
   const { favourites, addToFav, removeFromFav } = useFavPropertyStore()
-  console.log(favourites);
-
 
   return (
     <>
       {
         houses.map(house => (
           <div
-            className="border"
+            className="border rounded-md group overflow-hidden border-border/50 hover:shadow-[var(--card-shadow-hover)] transition-all duration-300"
             key={house.id}>
-            <img className="w-full h-40" src={house.propertyImg} alt="" />
-            <div className="px-2 flex flex-col gap-1 md:gap-1.3">
+            <img className="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-500" src={house.propertyImg} alt="" />
+            <div className="mt-2 px-2 flex flex-col gap-1 md:gap-1.3">
               <Link to={`/properties/${house.id}`} className="text-sm lg:text-sm line-clamp-2 hover:underline">{house.description}</Link>
               <p className="text-xs lg:text-sm"><span className="font-bold">{house.price}</span>&nbsp;<i>ETB/month</i></p>
               <div className="flex items-center line-clamp-1 gap-1.5">
@@ -51,14 +51,18 @@ const HouseCard = ({ houses }: { houses: PropertyList }) => {
                     <g id="SVGRepo_iconCarrier"> <path d="M18.5 18.8637V8.07579C18.5 5.99472 17.0378 4.20351 15.0077 3.7977C13.022 3.40077 10.978 3.40077 8.99225 3.7977C6.96219 4.20351 5.5 5.99472 5.5 8.07579V18.8637C5.5 20.1258 6.8627 20.9113 7.94601 20.2737L10.9053 18.5317C11.5814 18.1337 12.4186 18.1337 13.0947 18.5317L16.054 20.2737C17.1373 20.9113 18.5 20.1258 18.5 18.8637Z" fill="#c92c2c" fillOpacity="0.15" stroke="#c92c2c" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path> </g>
                   </svg>
                 )}
-                {house.status ? (
-                  <p className="text-sm text-red-400">Rented</p>
-                ) : (
-                  <p className="text-sm text-green-400">Available</p>
-                )}
+                <p className="text-xs lg:text-sm font-semibold">{publishedDate(house.createdAt)}</p>
               </div>
-              <p className="text-xs lg:text-sm font-semibold">{publishedDate(house.createdAt)}</p>
-              {/* <Link className="text-xs lg:text-sm font-semibold" to={`/properties/${house.id}`}>See more</Link> */}
+              {house.status ? (
+                <p className="text-sm text-red-400">Rented</p>
+              ) : (
+                <p className="text-sm text-green-400">Available</p>
+              )}
+              <Link
+                className="border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 text-center rounded-md font-semibold py-1.5 text-[14px]"
+                to={`/properties/${house.id}`}>
+                View Details
+              </Link>
             </div>
           </div>
         ))
@@ -67,4 +71,4 @@ const HouseCard = ({ houses }: { houses: PropertyList }) => {
   )
 }
 
-export default HouseCard
+export default PropertyCard

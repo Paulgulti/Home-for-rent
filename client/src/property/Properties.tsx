@@ -1,8 +1,9 @@
-import HouseCard from "../owner/HouseCard"
 import { useQueryParams } from "../useQueryParams"
 import { Button } from "../components/ui/button"
 import { keepPreviousData, useQuery } from "@tanstack/react-query"
 import { fetchProperties } from "../apis"
+import Footer from "@/LandingComponents/Footer"
+import PropertyCard from "./PropertyCard"
 
 const Properties = () => {
 
@@ -23,8 +24,20 @@ const Properties = () => {
   })
 
   return (
-    <div className="py-10 mt-4">
-      <p>Properties page</p>
+    <div className="">
+      {/* Hero Section */}
+      <section className="pt-24 lg:pt-32 pb-8 lg:pb-12 bg-gradient-to-b from-secondary/50 to-background">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-2xl">
+            <h1 className="font-serif text-3xl lg:text-4xl xl:text-5xl text-foreground mb-4 animate-fade-up">
+              Find Your Perfect Property
+            </h1>
+            <p className="text-muted-foreground text-lg animate-fade-up animation-delay-200">
+              Browse our curated selection of premium properties available for rent across the city.
+            </p>
+          </div>
+        </div>
+      </section>
       {isPending ? (
         <div className="flex justify-center items-center h-screen w-full">
           <svg
@@ -50,9 +63,9 @@ const Properties = () => {
             </div>
           </div>
         ) : (
-          <div>
+          <div className="my-12">
             <div className="grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-              <HouseCard houses={pageData.data} />
+              <PropertyCard houses={pageData.data} />
             </div>
             {/* Pagination Controls */}
             <div className="flex gap-2.5 mt-8 justify-center">
@@ -69,6 +82,7 @@ const Properties = () => {
           </div>
         )
       )}
+      <Footer/>
     </div>
   )
 }

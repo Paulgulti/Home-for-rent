@@ -5,6 +5,7 @@ import { Spinner } from '@/components/ui/spinner'
 import { Textarea } from '@/components/ui/textarea'
 import type { Property } from '@/types'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { Building2, X } from 'lucide-react'
 import React, { useState } from 'react'
 import { toast, ToastContainer } from 'react-toastify'
 
@@ -78,9 +79,12 @@ const EditPropertyInfo = ({ setEditFormPopup, selected }: EditPropertyInfoProps)
                         setEditFormPopup(false)
                     }}
                 >
-                    X
+                    <X className="h-6 w-6" />
                 </button>
-                <p>Welcome back</p>
+                <div className="flex items-center justify-center gap-2 mb-2">
+                    <Building2 className="h-8 w-8 text-primary" />
+                    <span className="font-serif text-xl lg:text-2xl text-foreground">PropManage</span>
+                </div>
                 <form
                     onSubmit={propertyUpdateMutation.mutate}
                     className='flex flex-col gap-3'>

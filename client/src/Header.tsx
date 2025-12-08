@@ -67,7 +67,7 @@ const Header = () => {
                                         {session?.user.image ? (
                                             <img className='w-5 h-5 rounded-full' src={session.user.image} alt="user-avatar" />
                                         ) : (
-                                            <img className='w-5 h-5 rounded-full' src="/user-avatar.png" alt="aaa" />
+                                            <img className='w-5 h-5 rounded-full' src="/user-avatar.png" alt="user-avatar" />
                                         )}
                                     </div>
                                     {openUser && (

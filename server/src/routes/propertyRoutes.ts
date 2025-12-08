@@ -58,6 +58,24 @@ router.get('/', async (req: Request, res: Response) => {
         res.sendStatus(503)
     }
 })
+// GET property by user http://localhost:8080/api/properties/user
+
+router.get('/user', requireAuth, async (req: Request, res: Response) => {
+    const session = (req as any).session
+
+    try {
+        const posts = await prisma.property.findMany({
+            where: {
+                ownerId: session.user.id
+            }
+        });
+
+        res.status(200).json(posts)
+    } catch (error) {
+        console.log(error);
+        res.sendStatus(503)
+    }
+})
 
 // GET a property by id http://localhost:8080/api/properties/:propertyId
 
@@ -77,25 +95,6 @@ router.get('/:propertyId', async (req: Request, res: Response) => {
     }
 })
 
-// GET property by user http://localhost:8080/api/properties/userId
-
-router.get('/user/:userId', requireAuth, async (req: Request, res: Response) => {
-    const session = (req as any).session
-    const { userId } = req.params
-
-    try {
-        const posts = await prisma.property.findMany({
-            where: {
-                ownerId: session.user.id
-            }
-        });
-
-        res.status(200).json(posts)
-    } catch (error) {
-        console.log(error);
-        res.sendStatus(503)
-    }
-})
 
 // DELETE property by id http://localhost:8080/api/properties/:propertyId
 

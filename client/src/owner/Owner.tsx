@@ -255,7 +255,8 @@ const Owner = () => {
                                 )}
                             </div>
                         </div>
-                    </div>}
+                    </div>
+                    }
             </div>
             {/* {Already posted properties by the owner} */}
             <div className="border border-red-400 grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">

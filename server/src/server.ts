@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express'
 import { toNodeHandler } from "better-auth/node";
 import { auth } from "./lib/auth";
 import cors from 'cors'
-import propertyRoutes from '../src/routes/propertyRoutes'
+import propertyRoutes from './routes/propertyRoutes'
 
 
 const app = express()

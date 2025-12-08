@@ -1,6 +1,8 @@
+import { useNavigate } from "react-router"
 import type { PaginatedPropertiesList, Property, PropertyList, UpdatedProperty } from "./types"
 
 const baseApiEndpoint = `http://localhost:8080/api`
+
 
 export async function fetchPropertyDetail(propertyId: string) {
     try {
@@ -22,6 +24,27 @@ export async function fetchProperties(page: Number, limit: Number) {
             throw new Error(`Failed: ${res.statusText}, Please try again later`)
         }
         const data = await res.json() as PaginatedPropertiesList
+        return data
+    } catch (error) {
+        throw error
+    }
+}
+
+export async function fetchPropertiesByUser(userId: string) {
+    const navigate = useNavigate()
+
+    try {
+        const res = await fetch(`http://localhost:8080/api/properties/user/${userId}`, {
+            credentials: 'include'
+        })
+        if (res.status === 401) {
+            navigate('/login')
+            return
+        }
+        if (!res.ok) {
+            throw new Error(`Failed: ${res.statusText}, Please try again later`)
+        }
+        const data = await res.json() as PropertyList
         return data
     } catch (error) {
         throw error

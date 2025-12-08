@@ -1,20 +1,19 @@
 import { authClient } from "@/lib/auth-client";
-import HouseCard from "@/owner/HouseCard";
 import Owner from "@/owner/Owner";
 import useFavPropertyStore from "@/stores/favouriteProperty";
 import { useQuery } from "@tanstack/react-query";
+import PropertyCard from "@/property/PropertyCard";
 
-const Dashboard = () => {
+const SavedProperties = () => {
   const { favourites, addToFav, removeFromFav } = useFavPropertyStore()
 
   return (
-    <div className="py-5 md:py-7">
-      <Owner/>
+    <div className="">
       {/* {Saved properties} */}
-      <h2>Your recently saved properties</h2>
+      <h2 className="font-semibold">Saved properties</h2>
       {favourites.length > 0 ? (
         <div className=" grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-          <HouseCard houses={favourites} />
+          <PropertyCard houses={favourites} />
         </div>
       ) : (
         <div className="flex justify-center items-center h-screen w-full">
@@ -25,4 +24,4 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard
+export default SavedProperties

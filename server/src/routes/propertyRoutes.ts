@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express'
 import { requireAuth } from '../middleware/auth'
 import prisma from '../prismaClient'
+import { Prisma } from '@prisma/client'
 
 const router = express.Router()
 
@@ -42,11 +43,22 @@ router.get('/', async (req: Request, res: Response) => {
         const page = parseInt((req.query.page as string)) || 1;
         const limit = parseInt((req.query.limit as string)) || 10;
         const skip = (page - 1) * limit
+        const search = (req.query.search as string) || ""
 
+        const filter = search
+            ? {
+                location: {
+                    contains: search,
+                    mode: Prisma.QueryMode.insensitive
+                }
+            }
+            : {};
+            
         const [data, total] = await Promise.all([
             prisma.property.findMany({
                 skip,
                 take: limit,
+                where: filter,
                 orderBy: { createdAt: 'desc' }
             }),
             prisma.property.count(),
@@ -58,6 +70,7 @@ router.get('/', async (req: Request, res: Response) => {
         res.sendStatus(503)
     }
 })
+
 // GET property by user http://localhost:8080/api/properties/user
 
 router.get('/user', requireAuth, async (req: Request, res: Response) => {

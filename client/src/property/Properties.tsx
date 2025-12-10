@@ -4,8 +4,20 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query"
 import { fetchProperties } from "../apis"
 import Footer from "@/LandingComponents/Footer"
 import PropertyCard from "./PropertyCard"
+import PropertyFilters from "./property-filters"
+import { useEffect, useState } from "react"
+import { useDebounce } from "@/custom-hook"
+import { useSearchParams } from "react-router"
 
 const Properties = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [propertyType, setPropertyType] = useState("all");
+  const [priceRange, setPriceRange] = useState("all");
+  const [bedrooms, setBedrooms] = useState("all");
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const debouncedQuery = useDebounce(searchQuery, 500);
+  const [searchParams, setSearchParams] = useSearchParams();
+
 
   const { getParams, updateParams } = useQueryParams()
 
@@ -17,11 +29,24 @@ const Properties = () => {
   };
 
   const { isPending, isError, error, data: pageData } = useQuery({
-    queryKey: ['allProperties', page, limit],
-    queryFn: () => fetchProperties(page, limit),
+    queryKey: ['allProperties', page, limit, debouncedQuery],
+    queryFn: () => fetchProperties(page, limit, debouncedQuery),
     staleTime: 5 * 60 * 1000,
-    placeholderData: keepPreviousData
+    placeholderData: keepPreviousData,
+    enabled: debouncedQuery !== null,
   })
+
+  useEffect(() => {
+    // Update URL
+    if (debouncedQuery) {
+      searchParams.set("search", debouncedQuery);
+    } else {
+      searchParams.delete("search");
+    }
+
+    setSearchParams(searchParams);
+  }, [debouncedQuery]);
+
 
   return (
     <div className="">
@@ -36,6 +61,21 @@ const Properties = () => {
               Browse our curated selection of premium properties available for rent across the city.
             </p>
           </div>
+        </div>
+      </section>
+      {/* Filters Section */}
+      <section className="py-6 md:sticky md:top-10 md:z-40 bg-background/80 backdrop-blur-md border-b border-border">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <PropertyFilters
+            searchQuery={searchQuery}
+            onSearchChange={setSearchQuery}
+            propertyType={propertyType}
+            onPropertyTypeChange={setPropertyType}
+            priceRange={priceRange}
+            onPriceRangeChange={setPriceRange}
+            bedrooms={bedrooms}
+            onBedroomsChange={setBedrooms}
+          />
         </div>
       </section>
       {isPending ? (
@@ -82,7 +122,7 @@ const Properties = () => {
           </div>
         )
       )}
-      <Footer/>
+      <Footer />
     </div>
   )
 }

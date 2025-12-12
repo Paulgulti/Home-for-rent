@@ -17,9 +17,9 @@ export async function fetchPropertyDetail(propertyId: string) {
     }
 }
 
-export async function fetchProperties(page: Number, limit: Number, search: string) {
+export async function fetchProperties(page: Number, limit: Number, search: string, minPrice: string, maxPrice: string) {
     try {
-        const res = await fetch(`${baseApiEndpoint}/properties?page=${page}&limit=${limit}&search=${search}`)
+        const res = await fetch(`${baseApiEndpoint}/properties?page=${page}&limit=${limit}&search=${search}&minPrice=${minPrice}&maxPrice=${maxPrice}`)
         if (!res.ok) {
             throw new Error(`Failed: ${res.statusText}, Please try again later`)
         }
@@ -29,19 +29,6 @@ export async function fetchProperties(page: Number, limit: Number, search: strin
         throw error
     }
 }
-
-// export async function fetchSearchedProperties(search: string, page: Number, limit: Number) {
-//     try {
-//         const res = await fetch(`${baseApiEndpoint}/properties/test?search=${search}&page=${page}&limit=${limit}`)
-//         if (!res.ok) {
-//             throw new Error(`Failed: ${res.statusText}, Please try again later`)
-//         }
-//         const data = await res.json() as PaginatedPropertiesList
-//         return data
-//     } catch (error) {
-//         throw error
-//     }
-// }
 
 export async function fetchPropertiesByUser(userId: string) {
     const navigate = useNavigate()

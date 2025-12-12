@@ -1,5 +1,5 @@
 import { fetchPropertyDetail } from "@/apis"
-import { publishedDate } from "@/lib/utils"
+import { publishedDate } from "@/lib/utility"
 import useFavPropertyStore from "@/stores/favouriteProperty"
 import { useQuery } from "@tanstack/react-query"
 import { useParams } from "react-router"

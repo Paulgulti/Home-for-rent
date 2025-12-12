@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { Link } from "react-router";
 
 const CTA = () => {
   return (
@@ -10,31 +11,29 @@ const CTA = () => {
           <div className="absolute top-0 right-0 w-64 h-64 bg-primary-foreground/5 rounded-full -translate-y-1/2 translate-x-1/2" />
           <div className="absolute bottom-0 left-0 w-96 h-96 bg-primary-foreground/5 rounded-full translate-y-1/2 -translate-x-1/2" />
           
-          <div className="relative z-10 px-8 py-16 lg:px-16 lg:py-24 text-center">
-            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-primary-foreground mb-6 max-w-3xl mx-auto">
-              Ready to Transform Your Property Management?
+          <div className="relative z-10 px-8 py-8 md:py-16 lg:px-16 lg:py-24 text-center">
+            <h2 className="font-serif text-2xl md:text-3xl sm:text-4xl lg:text-5xl text-primary-foreground mb-6 max-w-3xl mx-auto">
+              Tired of renting hustle or managing your own property?
             </h2>
-            <p className="text-primary-foreground/80 text-lg mb-8 max-w-2xl mx-auto">
-              Join thousands of property owners who've simplified their operations and increased their returns with PropManage.
+            <p className="text-primary-foreground/80 md:text-lg mb-8 max-w-2xl mx-auto">
+              Join thousands of property owners and tenants who've simplified their life with PropManage.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button 
-                size="lg" 
-                className="bg-primary-foreground text-primary hover:bg-primary-foreground/90"
+              <Link
+                to={'/properties'}
+                className="md:px-10 border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 text-center rounded-md font-semibold py-1.5 text-[14px] hover:cursor-pointer"
               >
-                Start Your Free Trial
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-              <Button 
-                variant="outline" 
-                size="lg"
-                className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 hover:border-primary-foreground/50"
+                Properties
+              </Link>
+              <Link
+                to={'/dashboard'}
+                className="md:px-10 border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 text-center rounded-md font-semibold py-1.5 text-[14px] hover:cursor-pointer"
               >
-                Schedule a Demo
-              </Button>
+                Dashboard
+              </Link>
             </div>
             <p className="mt-6 text-sm text-primary-foreground/60">
-              No credit card required • 14-day free trial • Cancel anytime
+              No wasting time • No middleman • 100% free
             </p>
           </div>
         </div>

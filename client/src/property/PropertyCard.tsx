@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { publishedDate } from "@/lib/utils"
+import { publishedDate } from "@/lib/utility"
 import useFavPropertyStore from "@/stores/favouriteProperty"
 import type { PropertyList } from "@/types"
 import { Link } from "react-router"

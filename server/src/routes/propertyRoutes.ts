@@ -42,29 +42,39 @@ router.get('/', async (req: Request, res: Response) => {
     try {
         const page = parseInt((req.query.page as string)) || 1;
         const limit = parseInt((req.query.limit as string)) || 10;
+        const minPrice = parseInt((req.query.minPrice as string)) || 0;
+        const maxPrice = parseInt((req.query.maxPrice as string)) || 999999999;
         const skip = (page - 1) * limit
         const search = (req.query.search as string) || ""
 
-        const filter = search
-            ? {
-                location: {
-                    contains: search,
-                    mode: Prisma.QueryMode.insensitive
+        const filter = {
+            AND: [search
+                ? {
+                    location: {
+                        contains: search,
+                        mode: Prisma.QueryMode.insensitive
+                    }
                 }
-            }
-            : {};
-            
-        const [data, total] = await Promise.all([
+                : {},
+            {
+                price: {
+                    gte: minPrice,
+                    lte: maxPrice
+                }
+            }]
+        };
+
+        const [data] = await Promise.all([
             prisma.property.findMany({
                 skip,
                 take: limit,
                 where: filter,
                 orderBy: { createdAt: 'desc' }
             }),
-            prisma.property.count(),
+            // await prisma.property.count(),
         ])
 
-        res.status(200).json({ data, total, page, limit, totalPages: Math.ceil(total / limit) })
+        res.status(200).json({ data, total: data.length, page, limit, totalPages: Math.ceil(data.length / limit) })
 
     } catch (error) {
         res.sendStatus(503)

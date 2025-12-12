@@ -1,3 +1,5 @@
+import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
+
 const stats = [
   { value: "15K+", label: "Properties Managed" },
   { value: "98%", label: "Client Satisfaction" },

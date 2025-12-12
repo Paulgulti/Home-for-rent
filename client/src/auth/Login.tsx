@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input'
 import { Link } from "react-router";
 import { Card, CardHeader } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
-import { ArrowRight, Eye, EyeOff, Lock, Mail } from 'lucide-react';
+import { ArrowRight, Eye, EyeOff, Lock, Mail, X } from 'lucide-react';
 
 
 const Login = () => {
@@ -41,15 +41,16 @@ const Login = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center">
-      <Card className="px-4 flex flex-col w-[90%] md:w-[60%] lg:w-[40%]">
-        <CardHeader>
-          <Link to="/" className="flex items-center gap-2 group">
-            <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-lg">P</span>
-            </div>
-            <span className="font-display text-xl font-bold text-foreground">PropertyPro</span>
-          </Link>
-        </CardHeader>
+      <div className="px-4 border rounded-2xl py-2 md:py-4 flex flex-col gap-2 md:gap-4 w-[90%] md:w-[60%] lg:w-[40%] relative">
+        <Link to={'/'} className="absolute top-3 right-3">
+          <X className="h-6 w-6" />
+        </Link>
+        <div>
+          <div className='flex justify-center'>
+
+            <p className='font-display text-xl font-bold text-foreground'>PropManage</p>
+          </div>
+        </div>
         <form onSubmit={signInUser} className="flex flex-col items-center gap-2">
           <div className="space-y-2">
             <Label htmlFor="name" className="text-foreground">Email</Label>
@@ -130,7 +131,7 @@ const Login = () => {
             <Link to='/signup'>Signup</Link>
           </div>
         </div>
-      </Card>
+      </div>
     </div>
   )
 }

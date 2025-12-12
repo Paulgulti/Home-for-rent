@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input'
 import { Link, useNavigate } from 'react-router'
 import { Button } from '@/components/ui/button'
 import { Card, CardHeader } from '@/components/ui/card'
-import { ArrowRight, Eye, EyeOff, Lock, Mail, User } from 'lucide-react'
+import { ArrowRight, Eye, EyeOff, Lock, Mail, User, X } from 'lucide-react'
 import { Label } from '@/components/ui/label'
 
 const Signup = () => {
@@ -46,22 +46,23 @@ const Signup = () => {
 
     return (
         <div className="min-h-screen flex items-center justify-center">
-            <Card className="px-4 flex flex-col w-[90%] md:w-[60%] lg:w-[40%]">
-                <CardHeader>
-                    <Link to="/" className="flex items-center gap-2 group">
-                        <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-                            <span className="text-primary-foreground font-bold text-lg">P</span>
-                        </div>
-                        <span className="font-display text-xl font-bold text-foreground">PropertyPro</span>
-                    </Link>
-                </CardHeader>
+            <div className="border py-2 md:py-4 px-4 flex flex-col gap-2 md:gap-4 rounded-2xl w-[90%] md:w-[60%] lg:w-[40%] relative">
+                <Link to={'/'} className="absolute top-1 right-1">
+                    <X className="h-6 w-6" />
+                </Link>
+                <div>
+                    <div className='flex justify-center'>
+
+                        <p className='font-display text-xl font-bold text-foreground'>PropManage</p>
+                    </div>
+                </div>
                 <form onSubmit={registerUser} className="flex flex-col items-center gap-2">
                     <div className="space-y-2">
                         <Label htmlFor="name" className="text-foreground">Full Name</Label>
                         <div className="relative">
                             <User className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                             <Input
-                                className="w-60 md:w-[260px] pl-10 h-12 bg-secondary/50 border-border focus:border-primary focus:ring-primary" name="name"
+                                className="w-60 md:w-[260px] pl-10 md:h-12 bg-secondary/50 border-border focus:border-primary focus:ring-primary" name="name"
                                 type="text"
                                 placeholder="name"
                                 value={name}
@@ -75,7 +76,7 @@ const Signup = () => {
                         <div className="relative">
                             <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                             <Input
-                                className="w-60 md:w-[260px] pl-10 h-12 bg-secondary/50 border-border focus:border-primary focus:ring-primary"
+                                className="w-60 md:w-[260px] pl-10 md:h-12 bg-secondary/50 border-border focus:border-primary focus:ring-primary"
                                 name="email"
                                 type="email"
                                 placeholder="email"
@@ -90,7 +91,7 @@ const Signup = () => {
                         <div className="relative">
                             <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                             <Input
-                                className="w-60 md:w-[260px] pl-10 pr-10 h-12 bg-secondary/50 border-border focus:border-primary focus:ring-primary"
+                                className="w-60 md:w-[260px] pl-10 pr-10 md:h-12 bg-secondary/50 border-border focus:border-primary focus:ring-primary"
                                 name="password"
                                 type={showPassword ? "text" : "password"}
                                 placeholder="password"
@@ -150,7 +151,7 @@ const Signup = () => {
                         <Link to='/login'>Login</Link>
                     </div>
                 </div>
-            </Card>
+            </div>
         </div>
     )
 }

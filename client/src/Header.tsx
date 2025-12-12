@@ -1,7 +1,7 @@
 import { Link, Outlet, useNavigate } from 'react-router';
 import { authClient } from './lib/auth-client';
 import { useState } from 'react';
-import { Building2, Menu, X } from "lucide-react";
+import { Building2, LogOutIcon, Mail, Menu, User, X } from "lucide-react";
 import { Button } from './components/ui/button';
 
 
@@ -72,10 +72,9 @@ const Header = () => {
                                     </div>
                                     {openUser && (
                                         <div className="absolute top-full right-0 mt-2 p-2 bg-white border rounded shadow">
-                                            <p className="text-sm">{session?.user.name}</p>
-                                            <Link to={`/${session.user.id}`} >Profile</Link>
-                                            <p className="text-xs text-gray-600">{session?.user.email}</p>
-                                            <button className="mt-2 text-sm text-red-600" onClick={signout}>Sign out</button>
+                                            <div className="flex items-center gap-2"><User size={16} /><p className='text-sm'>{session?.user.name}</p></div>
+                                            <div className="flex items-center gap-2"><Mail size={16} /><p className='text-sm'>{session?.user.email}</p></div>
+                                            <button className="flex items-center gap-2 mt-2 text-sm text-red-600 border px-4 py-1 rounded-md hover:cursor-pointer hover:bg-gray-50" onClick={signout}>Sign out <LogOutIcon size={12}/></button>
                                         </div>
                                     )}
                                 </div>

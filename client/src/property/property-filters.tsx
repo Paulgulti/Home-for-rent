@@ -8,6 +8,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Search, SlidersHorizontal } from "lucide-react";
+import { useQueryParams } from "@/useQueryParams";
 
 interface PropertyFiltersProps {
   searchQuery: string;
@@ -30,6 +31,13 @@ const PropertyFilters = ({
   bedrooms,
   onBedroomsChange,
 }: PropertyFiltersProps) => {
+  const { getParams, updateMultipleParams } = useQueryParams()
+  const minPrice = getParams("minPrice", "any");
+  const maxPrice = getParams("maxPrice", "any");
+
+  const selectedPriceRange =
+    minPrice !== "any" && maxPrice !== "any" ? `${minPrice} - ${maxPrice}` : "any";
+    
   return (
     <div className="bg-card border border-border rounded-xl p-4 lg:p-6 shadow-sm">
       <div className="flex flex-col lg:flex-row gap-4">
@@ -47,7 +55,7 @@ const PropertyFilters = ({
 
         {/* Filters */}
         <div className="flex flex-wrap gap-3">
-          <Select value={propertyType} onValueChange={onPropertyTypeChange}>
+          {/* <Select value={propertyType} onValueChange={onPropertyTypeChange}>
             <SelectTrigger className="w-[140px]">
               <SelectValue placeholder="Property Type" />
             </SelectTrigger>
@@ -58,22 +66,33 @@ const PropertyFilters = ({
               <SelectItem value="condo">Condo</SelectItem>
               <SelectItem value="townhouse">Townhouse</SelectItem>
             </SelectContent>
-          </Select>
-
-          <Select value={priceRange} onValueChange={onPriceRangeChange}>
+          </Select> */}
+          <Select
+            value={selectedPriceRange}
+            onValueChange={(value) => {
+              if (value === "any") {
+                updateMultipleParams("minPrice", "any", "maxPrice", "any")
+                return;
+              }
+              const [min, max] = value.split(" - ").map((v) => parseInt(v));
+              updateMultipleParams("minPrice", String(min), "maxPrice", String(max))
+            }}
+          >
+            {/* <Select value={priceRange} onValueChange={onPriceRangeChange}> */}
             <SelectTrigger className="w-[140px]">
               <SelectValue placeholder="Price Range" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">Any Price</SelectItem>
-              <SelectItem value="0-1500">$0 - $1,500</SelectItem>
-              <SelectItem value="1500-2500">$1,500 - $2,500</SelectItem>
-              <SelectItem value="2500-4000">$2,500 - $4,000</SelectItem>
-              <SelectItem value="4000+">$4,000+</SelectItem>
+              <SelectItem value="any">Any Price</SelectItem>
+              <SelectItem value="0 - 5000">less than 5,000<span className="">ETB</span></SelectItem>
+              <SelectItem value="5000 - 8000"><span className="">ETB</span>5,000 - 8,000</SelectItem>
+              <SelectItem value="8000 - 12000"><span className="">ETB</span>8,000 - 12,000</SelectItem>
+              <SelectItem value="12000 - 20000"><span className="">ETB</span>12,000 - 20,000</SelectItem>
+              <SelectItem value="20000 - 999999999"><span className="">ETB</span>20,000+</SelectItem>
             </SelectContent>
           </Select>
 
-          <Select value={bedrooms} onValueChange={onBedroomsChange}>
+          {/* <Select value={bedrooms} onValueChange={onBedroomsChange}>
             <SelectTrigger className="w-[120px]">
               <SelectValue placeholder="Bedrooms" />
             </SelectTrigger>
@@ -84,15 +103,15 @@ const PropertyFilters = ({
               <SelectItem value="3">3 Beds</SelectItem>
               <SelectItem value="4+">4+ Beds</SelectItem>
             </SelectContent>
-          </Select>
+          </Select> */}
 
-          <Button variant="outline" className="gap-2">
+          {/* <Button variant="outline" className="gap-2">
             <SlidersHorizontal className="h-4 w-4" />
             More Filters
-          </Button>
+          </Button> */}
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 

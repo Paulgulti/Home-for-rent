@@ -21,16 +21,18 @@ const Properties = () => {
 
   const { getParams, updateParams } = useQueryParams()
 
-  const page = Math.max(1, parseInt(getParams('page', '1'), 10) || 1)
-  const limit = Math.max(1, parseInt(getParams('limit', '10'), 10) || 10)
+  const page = Math.max(1, parseInt(getParams('page', '1'), 10) || 1);
+  const limit = Math.max(1, parseInt(getParams('limit', '10'), 10) || 10);
+  const minPrice = getParams('minPrice', 'any');
+  const maxPrice = getParams('maxPrice', 'any');
 
   const goToPage = (newPage: number) => {
     updateParams("page", String(newPage));
   };
 
   const { isPending, isError, error, data: pageData } = useQuery({
-    queryKey: ['allProperties', page, limit, debouncedQuery],
-    queryFn: () => fetchProperties(page, limit, debouncedQuery),
+    queryKey: ['allProperties', page, limit, debouncedQuery, minPrice, maxPrice],
+    queryFn: () => fetchProperties(page, limit, debouncedQuery, minPrice, maxPrice),
     staleTime: 5 * 60 * 1000,
     placeholderData: keepPreviousData,
     enabled: debouncedQuery !== null,
@@ -47,24 +49,23 @@ const Properties = () => {
     setSearchParams(searchParams);
   }, [debouncedQuery]);
 
-
   return (
     <div className="">
       {/* Hero Section */}
-      <section className="pt-24 lg:pt-32 pb-8 lg:pb-12 bg-gradient-to-b from-secondary/50 to-background">
+      <section className="pt-13 md:pt-16 lg:pt-20 pb-4 md:pb-6 lg:pb-8 bg-gradient-to-b from-secondary/50 to-background">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl">
-            <h1 className="font-serif text-3xl lg:text-4xl xl:text-5xl text-foreground mb-4 animate-fade-up">
+            <h1 className="font-serif text-xl md:text-2xl lg:text-3xl xl:text-5xl text-foreground mb-2 md:mb-4 animate-fade-up">
               Find Your Perfect Property
             </h1>
-            <p className="text-muted-foreground text-lg animate-fade-up animation-delay-200">
+            <p className="text-muted-foreground text-md md:text-lg animate-fade-up animation-delay-200 max-w-[400px]">
               Browse our curated selection of premium properties available for rent across the city.
             </p>
           </div>
         </div>
       </section>
       {/* Filters Section */}
-      <section className="py-6 md:sticky md:top-10 md:z-40 bg-background/80 backdrop-blur-md border-b border-border">
+      <section className="pb-3 md:pt-6 md:sticky md:top-10 md:z-40 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <PropertyFilters
             searchQuery={searchQuery}
@@ -103,23 +104,36 @@ const Properties = () => {
             </div>
           </div>
         ) : (
-          <div className="my-12">
-            <div className="grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-              <PropertyCard houses={pageData.data} />
+          pageData.totalPages === 0 || pageData.data.length === 0 ? (
+            <div className="flex w-full h-[25vh] items-center justify-center">
+              <div className=" flex flex-col items-center">
+                <img
+                  className="w-15 h-15"
+                  src='/oops.svg' alt="oops img" />
+                <p className="text-sm md:text-[16px]">Couldn't find properties you are looking for.</p>
+              </div>
             </div>
-            {/* Pagination Controls */}
-            <div className="flex gap-2.5 mt-8 justify-center">
-              <Button className="hover:cursor-pointer" disabled={page <= 1} onClick={() => goToPage(page - 1)}>
-                Prev
-              </Button>
+          ) : (
+            <div>
+              <div className="my-12">
+                <div className="grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+                  <PropertyCard houses={pageData.data} />
+                </div>
+                {/* Pagination Controls */}
+                <div className="flex gap-2.5 mt-8 justify-center">
+                  <Button className="hover:cursor-pointer" disabled={page <= 1} onClick={() => goToPage(page - 1)}>
+                    Prev
+                  </Button>
 
-              <span>Page {page} / {pageData.totalPages}</span>
+                  <span>Page {page} / {pageData.totalPages}</span>
 
-              <Button disabled={pageData.totalPages <= 1} className="hover:cursor-pointer" onClick={() => goToPage(page + 1)}>
-                Next
-              </Button>
+                  <Button disabled={pageData.totalPages <= 1} className="hover:cursor-pointer" onClick={() => goToPage(page + 1)}>
+                    Next
+                  </Button>
+                </div>
+              </div>
             </div>
-          </div>
+          )
         )
       )}
       <Footer />

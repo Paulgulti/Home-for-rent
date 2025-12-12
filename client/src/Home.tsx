@@ -10,6 +10,8 @@ import HowItWorks from './LandingComponents/HowItWorks';
 import CTA from './LandingComponents/Cta';
 import Footer from './LandingComponents/Footer';
 import Navbar from './LandingComponents/Navbar';
+import AnimatedTestimonialsDemo from './LandingComponents/Testimonials';
+import Testimonial from './LandingComponents/Testimonials';
 
 const Home = () => {
 
@@ -42,8 +44,8 @@ const Home = () => {
         </div>
       </div>
       <Features />
-      <Stats/>
       <HowItWorks/>
+      <Testimonial/>
       <CTA/>
       <Footer/>
     </div>

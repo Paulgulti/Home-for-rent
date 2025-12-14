@@ -12,12 +12,7 @@ const Header = () => {
     const navigate = useNavigate()
 
 
-    const {
-        data: session,
-        isPending, //loading state
-        error, //error object
-        refetch //refetch the session
-    } = authClient.useSession()
+    const { data: session } = authClient.useSession()
 
     function signout() {
         authClient.signOut({

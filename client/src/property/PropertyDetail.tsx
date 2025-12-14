@@ -4,11 +4,8 @@ import useFavPropertyStore from "@/stores/favouriteProperty"
 import { useQuery } from "@tanstack/react-query"
 import { useParams } from "react-router"
 
-
-
 const PropertyDetail = () => {
   const { favourites, addToFav, removeFromFav } = useFavPropertyStore()
-  console.log(favourites);
   const { propertyId } = useParams()
 
   const { data: property, isError, isLoading, error } = useQuery({

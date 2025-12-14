@@ -14,11 +14,8 @@ const Properties = () => {
   const [propertyType, setPropertyType] = useState("all");
   const [priceRange, setPriceRange] = useState("all");
   const [bedrooms, setBedrooms] = useState("all");
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const debouncedQuery = useDebounce(searchQuery, 500);
   const [searchParams, setSearchParams] = useSearchParams();
-
-
   const { getParams, updateParams } = useQueryParams()
 
   const page = Math.max(1, parseInt(getParams('page', '1'), 10) || 1);

@@ -3,7 +3,6 @@ import { authClient } from '../lib/auth-client'
 import { Input } from '@/components/ui/input'
 import { Link, useNavigate } from 'react-router'
 import { Button } from '@/components/ui/button'
-import { Card, CardHeader } from '@/components/ui/card'
 import { ArrowRight, Eye, EyeOff, Lock, Mail, User, X } from 'lucide-react'
 import { Label } from '@/components/ui/label'
 
@@ -31,7 +30,7 @@ const Signup = () => {
                 name,
                 callbackURL: '/'
             }), {
-            onSuccess: (ctx: any) => {
+            onSuccess: () => {
                 //redirect to the dashboard or sign in page
                 console.log('Registration successful');
                 alert('successfully signed up')

@@ -4,25 +4,23 @@ import EditPropertyInfo from './EditPropertyInfo'
 import type { Property, PropertyList } from '@/types'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
-import { useNavigate, useParams } from 'react-router'
+import { useNavigate } from 'react-router'
 import { ToastContainer, toast } from 'react-toastify';
-import Owner from '@/owner/Owner'
-import TestOwner from '@/dashboard/test-owner'
 import { authClient } from '@/lib/auth-client'
 import SavedProperties from '@/dashboard/SavedProperties'
+import Owner from '@/dashboard/property-owner'
 
 const Profile = () => {
 
     const navigate = useNavigate()
     const queryClient = useQueryClient()
-    const { userId } = useParams()
     const [editFormPopup, setEditFormPopup] = useState<boolean>(false)
     const [postingModalPop, setPostingModalPop] = useState<boolean>(false)
     const [selectedProperty, setSelectedProperty] = useState<Property>();
 
     const { data: session, error: sessionError } = authClient.useSession()
 
-    const { isPending, isError, error, data: userProperties } = useQuery({
+    const { isPending, isError, data: userProperties } = useQuery({
         queryKey: ['userProperties'],
         queryFn: async () => {
             const res = await fetch(`http://localhost:8080/api/properties/user`, { credentials: 'include' })
@@ -61,7 +59,7 @@ const Profile = () => {
                 queryClient.invalidateQueries({ queryKey: ['allProperties'] }),
             ])
         },
-        onError(error, variables, onMutateResult, context) {
+        onError(error) {
             toast(error.message)
         },
     })
@@ -84,7 +82,7 @@ const Profile = () => {
                 <Button className="" variant='link' onClick={openPropertyForm}>Click here</Button>
             </div>
             {postingModalPop && (
-                <TestOwner
+                <Owner
                     setPostingModalPop={setPostingModalPop} />
             )}
             {isPending ? (

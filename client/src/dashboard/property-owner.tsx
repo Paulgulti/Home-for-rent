@@ -1,9 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { useState, type FormEvent } from "react"
 import { Input } from "@/components/ui/input"
-import { authClient } from "@/lib/auth-client"
-import { useNavigate } from "react-router"
-import { toast, ToastContainer } from "react-toastify"
+import { toast } from "react-toastify"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { Textarea } from "@/components/ui/textarea"
 import { Building2, X } from "lucide-react"
@@ -12,29 +10,22 @@ type PostPropertyProps = {
     setPostingModalPop: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
-const TestOwner = ({ setPostingModalPop }: PostPropertyProps) => {
+const Owner = ({ setPostingModalPop }: PostPropertyProps) => {
+    const API_URL = import.meta.env.VITE_API_URL;
+    
     const [houseDescription, setHouseDescription] = useState<string>('')
     const [price, setPrice] = useState<number>()
     const [priceNegotiability, setPriceNegotiability] = useState<string>('No')
     const [location, setLocation] = useState<string>('')
     const [phoneNumber, setPhoneNumber] = useState<string | null>(null)
     const [image, setImage] = useState<File | null>(null);
-    const [imageUrl, setImageUrl] = useState<string | null>(null);
+    // const [imageUrl, setImageUrl] = useState<string | null>(null);
     const [err, setError] = useState<string | null>(null)
-    const [loading, setLoading] = useState<boolean>(false)
-    const [success, setSuccess] = useState<boolean>(false)
+    // const [loading, setLoading] = useState<boolean>(false)
+    // const [success, setSuccess] = useState<boolean>(false)
 
-    const baseApiEndpoint = 'http://localhost:8080/api'
 
-    const navigate = useNavigate()
     const queryClient = useQueryClient()
-    const { data: session, error } = authClient.useSession()
-
-    function openPropertyForm() {
-        if (!session?.user || error) {
-            navigate('/signup')
-        } else setPostingModalPop(true)
-    }
 
     const uploadImage = async () => {
         try {
@@ -67,7 +58,7 @@ const TestOwner = ({ setPostingModalPop }: PostPropertyProps) => {
 
     async function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        setLoading(true)
+        // setLoading(true)
         try {
             // if (!session) throw new Error('Make sure you have logged in before submitting!')
 
@@ -95,7 +86,7 @@ const TestOwner = ({ setPostingModalPop }: PostPropertyProps) => {
                 throw new Error("Couldn't get image file!")
             }
 
-            const post = await fetch(`${baseApiEndpoint}/properties`, {
+            const post = await fetch(`${API_URL}/api/properties`, {
                 method: 'POST',
                 credentials: "include",
                 headers: {
@@ -113,7 +104,7 @@ const TestOwner = ({ setPostingModalPop }: PostPropertyProps) => {
 
             const data = await post.json()
             if (data.error) {
-                setLoading(false)
+                // setLoading(false)
                 throw new Error(data.error)
             }
 
@@ -121,15 +112,16 @@ const TestOwner = ({ setPostingModalPop }: PostPropertyProps) => {
             setPrice(0)
             setLocation('')
             setPhoneNumber(null)
-            setImageUrl(null)
+            // setImageUrl(null)
             setImage(null)
 
-            setLoading(false)
-            setSuccess(true)
+            // setLoading(false)
+            // setSuccess(true)
         } catch (error) {
             console.error(error instanceof Error ? error.message : String(error))
             setError(error instanceof Error ? error.message : String(error))
-            setLoading(false)
+            // setLoading(false)
+            throw error
         }
     }
 
@@ -236,8 +228,8 @@ const TestOwner = ({ setPostingModalPop }: PostPropertyProps) => {
                             if (file) setImage(file);
                         }}
                     />
-                    {err && <p className="text-red-500 text-xs">{err}</p>}
-                    {loading ? (
+                    {uploadMutation.error && <p className="text-red-500 text-xs">{err}</p>}
+                    {uploadMutation.isPending ? (
                         <Button disabled>
                             <span className="text-xs animate-spin mr-2">p</span>
                             Submit</Button>
@@ -250,4 +242,4 @@ const TestOwner = ({ setPostingModalPop }: PostPropertyProps) => {
     )
 }
 
-export default TestOwner
+export default Owner

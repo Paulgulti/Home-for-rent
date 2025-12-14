@@ -3,7 +3,6 @@ import { authClient } from '../lib/auth-client'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Link } from "react-router";
-import { Card, CardHeader } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { ArrowRight, Eye, EyeOff, Lock, Mail, X } from 'lucide-react';
 

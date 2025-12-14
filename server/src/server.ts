@@ -4,7 +4,7 @@ import { auth } from "./lib/auth";
 import cors from 'cors'
 import propertyRoutes from './routes/propertyRoutes'
 
-
+const PORT = process.env.PORT || 5000;
 const app = express()
 const corsOption = {
     origin: ["http://localhost:5173"],
@@ -26,8 +26,8 @@ app.get('/', (req: Request, res: Response) => {
 
 app.use('/api/properties', propertyRoutes)
 
-app.listen(8080, () => {
-    console.log('Server is running on Port 8080.');
+app.listen(PORT, () => {
+    console.log(`Server is running on Port ${PORT}.`);
 })
 
 

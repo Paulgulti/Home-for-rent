@@ -12,8 +12,18 @@ export function useQueryParams() {
         newParams.set(key, value);
         return setSearchParams(newParams);
     }
-    function updateMultipleParams(minPrice: string, value: string, maxPrice: string, value2: string) {
-        return setSearchParams({minPrice: value, maxPrice: value2});
+    function updateMultipleParams(value: string, value2: string) {
+        setSearchParams(prev => {
+            let next = new URLSearchParams(prev)
+
+            if (value === 'any') {
+                next.delete("minPrice");
+                next.delete("maxPrice");
+            }
+            next.set("minPrice", value);
+            next.set("maxPrice", value2);
+            return next
+        })
     }
 
     return { searchParams, getParams, updateParams, updateMultipleParams };

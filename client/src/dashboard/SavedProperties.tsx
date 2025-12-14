@@ -1,11 +1,8 @@
-import { authClient } from "@/lib/auth-client";
-import Owner from "@/owner/Owner";
 import useFavPropertyStore from "@/stores/favouriteProperty";
-import { useQuery } from "@tanstack/react-query";
 import PropertyCard from "@/property/PropertyCard";
 
 const SavedProperties = () => {
-  const { favourites, addToFav, removeFromFav } = useFavPropertyStore()
+  const { favourites } = useFavPropertyStore()
 
   return (
     <div className="">

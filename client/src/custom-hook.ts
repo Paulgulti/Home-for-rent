@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useQueryParams } from "./useQueryParams";
 
 export function useDebounce(value: string, delay = 500) {
     const [debouncedValue, setDebouncedValue] = useState(value);

@@ -1,4 +1,4 @@
-import { Home, Users, Wrench, BarChart3, Shield, Clock } from "lucide-react";
+import { Home, Users, Wrench, BarChart3 } from "lucide-react";
 
 const features = [
   {

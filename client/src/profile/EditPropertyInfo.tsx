@@ -22,7 +22,6 @@ const EditPropertyInfo = ({ setEditFormPopup, selected }: EditPropertyInfoProps)
     const [phoneNum, setPhoneNum] = useState<string>(selected?.phoneNumber!)
     const [price, setPrice] = useState<number | ''>(selected?.price!)
     const [priceNegotiability, setPriceNegotiability] = useState<string>(selected?.priceNegotiability!)
-    const [err, setError] = useState<string | null>(null)
 
     function handlePropertyInfoUpdate(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -50,7 +49,7 @@ const EditPropertyInfo = ({ setEditFormPopup, selected }: EditPropertyInfoProps)
             })
             return updateProperty
         } catch (error) {
-            setError(error instanceof Error ? error.message : String(error))
+            // setError(error instanceof Error ? error.message : String(error))
             throw error
         }
     }
@@ -75,7 +74,7 @@ const EditPropertyInfo = ({ setEditFormPopup, selected }: EditPropertyInfoProps)
                 <button
                     className='cursor-pointer absolute top-2 right-2'
                     onClick={() => {
-                        setError(null)
+                        // setError(null)
                         setEditFormPopup(false)
                     }}
                 >

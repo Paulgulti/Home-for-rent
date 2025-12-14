@@ -1,5 +1,4 @@
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
@@ -7,7 +6,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Search, SlidersHorizontal } from "lucide-react";
+import { Search } from "lucide-react";
 import { useQueryParams } from "@/useQueryParams";
 
 interface PropertyFiltersProps {
@@ -24,13 +23,7 @@ interface PropertyFiltersProps {
 const PropertyFilters = ({
   searchQuery,
   onSearchChange,
-  propertyType,
-  onPropertyTypeChange,
-  priceRange,
-  onPriceRangeChange,
-  bedrooms,
-  onBedroomsChange,
-}: PropertyFiltersProps) => {
+ }: PropertyFiltersProps) => {
   const { getParams, updateMultipleParams } = useQueryParams()
   const minPrice = getParams("minPrice", "any");
   const maxPrice = getParams("maxPrice", "any");
@@ -71,11 +64,11 @@ const PropertyFilters = ({
             value={selectedPriceRange}
             onValueChange={(value) => {
               if (value === "any") {
-                updateMultipleParams("minPrice", "any", "maxPrice", "any")
+                updateMultipleParams("any", "any")
                 return;
               }
               const [min, max] = value.split(" - ").map((v) => parseInt(v));
-              updateMultipleParams("minPrice", String(min), "maxPrice", String(max))
+              updateMultipleParams(String(min), String(max))
             }}
           >
             {/* <Select value={priceRange} onValueChange={onPriceRangeChange}> */}

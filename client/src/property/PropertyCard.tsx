@@ -1,13 +1,9 @@
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
 import { publishedDate } from "@/lib/utility"
 import useFavPropertyStore from "@/stores/favouriteProperty"
 import type { PropertyList } from "@/types"
 import { Link } from "react-router"
-import { property } from "zod"
 
 const PropertyCard = ({ houses }: { houses: PropertyList }) => {
-
   const { favourites, addToFav, removeFromFav } = useFavPropertyStore()
 
   return (
@@ -17,7 +13,12 @@ const PropertyCard = ({ houses }: { houses: PropertyList }) => {
           <div
             className="border rounded-md group overflow-hidden border-border/50 hover:shadow-[var(--card-shadow-hover)] transition-all duration-300"
             key={house.id}>
-            <img className="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-500" src={house.propertyImg} alt="" />
+            <img
+              className="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-500"
+              src={house.propertyImg}
+              alt="property-img"
+              loading="lazy"
+            />
             <div className="mt-2 px-2 flex flex-col gap-1 md:gap-1.3">
               <Link to={`/properties/${house.id}`} className="text-sm lg:text-sm line-clamp-2 hover:underline">{house.description}</Link>
               <p className="text-xs lg:text-sm"><span className="font-bold">{house.price}</span>&nbsp;<i>ETB/month</i></p>

@@ -1,16 +1,10 @@
 import { Link } from 'react-router';
-import { ContainerScroll } from './components/ui/container-scroll-animation'
 import { FlipWords } from './components/ui/flip-words';
 import { NoiseBackground } from './components/ui/noise-background';
-import heroImage from "../src/assets/hero-property.jpg";
-import { Button } from './components/ui/button';
 import Features from './LandingComponents/Features';
-import Stats from './LandingComponents/Stats';
 import HowItWorks from './LandingComponents/HowItWorks';
 import CTA from './LandingComponents/Cta';
 import Footer from './LandingComponents/Footer';
-import Navbar from './LandingComponents/Navbar';
-import AnimatedTestimonialsDemo from './LandingComponents/Testimonials';
 import Testimonial from './LandingComponents/Testimonials';
 
 const Home = () => {

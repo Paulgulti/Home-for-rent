@@ -1,12 +1,11 @@
 import { useNavigate } from "react-router"
 import type { PaginatedPropertiesList, Property, PropertyList, UpdatedProperty } from "./types"
 
-const baseApiEndpoint = `http://localhost:8080/api`
-
+const API_URL = import.meta.env.VITE_API_URL;
 
 export async function fetchPropertyDetail(propertyId: string) {
     try {
-        const res = await fetch(`http://localhost:8080/api/properties/${propertyId}`)
+        const res = await fetch(`${API_URL}/api/properties/${propertyId}`)
         if (!res.ok) {
             throw new Error(`Failed: ${res.statusText}, Please try again later`)
         }
@@ -19,7 +18,7 @@ export async function fetchPropertyDetail(propertyId: string) {
 
 export async function fetchProperties(page: Number, limit: Number, search: string, minPrice: string, maxPrice: string) {
     try {
-        const res = await fetch(`${baseApiEndpoint}/properties?page=${page}&limit=${limit}&search=${search}&minPrice=${minPrice}&maxPrice=${maxPrice}`)
+        const res = await fetch(`${API_URL}/api/properties?page=${page}&limit=${limit}&search=${search}&minPrice=${minPrice}&maxPrice=${maxPrice}`)
         if (!res.ok) {
             throw new Error(`Failed: ${res.statusText}, Please try again later`)
         }
@@ -34,7 +33,7 @@ export async function fetchPropertiesByUser(userId: string) {
     const navigate = useNavigate()
 
     try {
-        const res = await fetch(`http://localhost:8080/api/properties/user/${userId}`, {
+        const res = await fetch(`${API_URL}/api/properties/user/${userId}`, {
             credentials: 'include'
         })
         if (res.status === 401) {
@@ -53,7 +52,7 @@ export async function fetchPropertiesByUser(userId: string) {
 
 export async function deleteProperty(propertyId: string) {
     try {
-        const res = await fetch(`http://localhost:8080/api/properties/property/${propertyId}`, {
+        const res = await fetch(`${API_URL}/api/properties/property/${propertyId}`, {
             method: "DELETE",
             credentials: "include",
             headers: {
@@ -73,7 +72,7 @@ export async function deleteProperty(propertyId: string) {
 
 export async function updateStatus(property: Property) {
     try {
-        const updatedProperty = await fetch('http://localhost:8080/api/properties/property', {
+        const updatedProperty = await fetch(`${API_URL}/api/properties/property`, {
             method: 'PUT',
             credentials: 'include',
             headers: {
@@ -97,7 +96,7 @@ export async function updateStatus(property: Property) {
 
 export async function updatePropertyInfo(property: UpdatedProperty) {
     try {
-        const updatedProperty = await fetch(`http://localhost:8080/api/properties/property/:id`, {
+        const updatedProperty = await fetch(`${API_URL}/api/properties/property/:id`, {
             method: 'PUT',
             credentials: 'include',
             headers: {

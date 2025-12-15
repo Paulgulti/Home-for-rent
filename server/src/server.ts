@@ -30,6 +30,10 @@ app.get('/', (req: Request, res: Response) => {
 
 app.use('/api/properties', propertyRoutes)
 
+app.use('*', (req, res) => {
+  res.status(404).json({ message: 'Route not found', path: req.originalUrl });
+});
+
 app.listen(PORT, () => {
     console.log(`Server is running on Port ${PORT}.`);
 })

@@ -17,8 +17,8 @@ const corsOption = {
 }
 
 app.use(cors(corsOption))
-app.options("/{*any}", cors(corsOption));
-app.all('/api/auth/{*any}', toNodeHandler(auth));
+app.options("*", cors(corsOption));
+app.all('/api/auth/*splat', toNodeHandler(auth));
 
 app.use(express.json());
 

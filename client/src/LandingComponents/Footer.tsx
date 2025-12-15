@@ -9,7 +9,7 @@ const Footer = () => {
           <div className="lg:col-span-1">
             <a href="/" className="flex items-center gap-2 mb-4">
               <Building2 className="h-8 w-8" />
-              <span className="font-serif text-xl md:text-2xl">PropManage</span>
+              <span className="font-serif text-xl md:text-2xl">Akeray</span>
             </a>
             <p className="text-sm md:text-[16px] text-background/60 leading-relaxed">
               Simplifying property management for owners, managers, and tenants across the nation.
@@ -19,7 +19,7 @@ const Footer = () => {
 
         <div className="pt-8 border-t border-background/10 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-background/60 text-sm">
-            © 2025 PropManage. All rights reserved.
+            © 2025 Akeray. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
             <Link to="https://x.com/Paulma00s" target="_blank"  className="text-background/60 hover:text-background transition-colors text-sm">Twitter</Link>

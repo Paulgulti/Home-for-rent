@@ -52,7 +52,7 @@ const Signup = () => {
                 <div>
                     <div className='flex justify-center'>
 
-                        <p className='font-display text-xl font-bold text-foreground'>PropManage</p>
+                        <p className='font-display text-xl font-bold text-foreground'>Akeray</p>
                     </div>
                 </div>
                 <form onSubmit={registerUser} className="flex flex-col items-center gap-2">

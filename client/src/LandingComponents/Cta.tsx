@@ -14,7 +14,7 @@ const CTA = () => {
               Tired of renting hustle or managing your own property?
             </h2>
             <p className="text-primary-foreground/80 md:text-lg mb-8 max-w-2xl mx-auto">
-              Join thousands of property owners and tenants who've simplified their life with PropManage.
+              Join thousands of property owners and tenants who've simplified their life with Akeray.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link

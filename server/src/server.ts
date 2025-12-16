@@ -17,7 +17,7 @@ const corsOption = {
 }
 
 app.use(cors(corsOption))
-app.options("*", cors(corsOption));
+// app.options("*", cors(corsOption));
 app.all('/api/auth/*splat', toNodeHandler(auth));
 
 app.use(express.json());
@@ -30,7 +30,7 @@ app.get('/', (req: Request, res: Response) => {
 
 app.use('/api/properties', propertyRoutes)
 
-app.use('*', (req, res) => {
+app.use('/*splat', (req, res) => {
   res.status(404).json({ message: 'Route not found', path: req.originalUrl });
 });
 

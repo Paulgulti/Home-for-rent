@@ -27,6 +27,10 @@ app.use(express.json());
 app.get('/', (req: Request, res: Response) => {
     res.status(200).json({ message: 'Server is running',  });
 });
+app.get("/api/debug", (req, res) => {
+  res.json({ routes: "working" });
+});
+
 
 app.use('/api/properties', propertyRoutes)
 

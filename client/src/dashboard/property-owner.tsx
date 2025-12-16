@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input"
 import { toast } from "react-toastify"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { Textarea } from "@/components/ui/textarea"
-import { Building2, LoaderCircle, X } from "lucide-react"
+import { Building2, X } from "lucide-react"
 import { Spinner } from "@/components/ui/spinner"
 
 type PostPropertyProps = {

@@ -4,7 +4,8 @@ import { Input } from "@/components/ui/input"
 import { toast } from "react-toastify"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { Textarea } from "@/components/ui/textarea"
-import { Building2, X } from "lucide-react"
+import { Building2, LoaderCircle, X } from "lucide-react"
+import { Spinner } from "@/components/ui/spinner"
 
 type PostPropertyProps = {
     setPostingModalPop: React.Dispatch<React.SetStateAction<boolean>>,
@@ -12,7 +13,7 @@ type PostPropertyProps = {
 
 const Owner = ({ setPostingModalPop }: PostPropertyProps) => {
     const API_URL = import.meta.env.VITE_API_URL;
-    
+
     const [houseDescription, setHouseDescription] = useState<string>('')
     const [price, setPrice] = useState<number>()
     const [priceNegotiability, setPriceNegotiability] = useState<string>('No')
@@ -39,7 +40,7 @@ const Owner = ({ setPostingModalPop }: PostPropertyProps) => {
             formData.append("upload_preset", "mnmdsuzg");
 
             const response = await fetch(
-                "https://api.cloudinary.com/v1_1/dfozbfqvo/image/upload",
+                `https://api.cloudinary.com/v1_1/dfozbfqvo/image/upload`,
                 {
                     method: "POST",
                     body: formData,
@@ -133,6 +134,7 @@ const Owner = ({ setPostingModalPop }: PostPropertyProps) => {
                 queryClient.invalidateQueries({ queryKey: ['allProperties'] }),
             ]),
                 toast("You have successfully posted your property")
+            setPostingModalPop(false)
         }
     })
     return (
@@ -229,13 +231,16 @@ const Owner = ({ setPostingModalPop }: PostPropertyProps) => {
                         }}
                     />
                     {uploadMutation.error && <p className="text-red-500 text-xs">{err}</p>}
-                    {uploadMutation.isPending ? (
+                    {/* {uploadMutation.isPending ? (
                         <Button disabled>
-                            <span className="text-xs animate-spin mr-2">p</span>
                             Submit</Button>
                     ) : (
-                        <Button type="submit">Submit</Button>
-                    )}
+                    )} */}
+                    <Button disabled={uploadMutation.isPending} className="hover:cursor-pointer" type="submit">
+                        {uploadMutation.isPending && (
+                            <Spinner />)}
+                        Submit
+                    </Button>
                 </form>
             </div>
         </div>

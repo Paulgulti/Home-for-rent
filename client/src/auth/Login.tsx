@@ -99,7 +99,8 @@ const Login = () => {
               <LoaderCircle className='h-5 w-5 group-hover:translate-x-1 transition-transform animate-spin' />
             ) : (
               <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
-            )}          </Button>
+            )}
+          </Button>
         </form>
         <div className="relative">
           <div className="absolute inset-0 flex items-center">

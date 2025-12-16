@@ -84,7 +84,7 @@ const Profile = () => {
             </div>
             {postingModalPop && (
                 <Owner
-                    setPostingModalPop={setPostingModalPop} />
+                    setPostingModalPop={setPostingModalPop}/>
             )}
             {isPending ? (
                 <div className="flex justify-center items-center h-screen w-full">

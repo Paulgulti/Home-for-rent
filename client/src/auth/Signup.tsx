@@ -15,33 +15,30 @@ const Signup = () => {
 
     const navigate = useNavigate();
 
-    async function signinWithGoogle() {
+    async function signUpWithGoogle() {
         await authClient.signIn.social({
             provider: "google",
             callbackURL: window.location.origin + '/'
         })
-        await authClient.getSession();
     }
 
     async function registerUser(e: React.FormEvent<HTMLFormElement>) {
-        e.preventDefault(),
-            await authClient.signUp.email({
-                email,
-                password,
-                name,
-                callbackURL: '/'
-            }), {
+        e.preventDefault();
+        await authClient.signUp.email({
+            email,
+            password,
+            name,
+            callbackURL: window.location.origin + '/'
+        }, {
             onSuccess: () => {
-                //redirect to the dashboard or sign in page
                 console.log('Registration successful');
                 alert('successfully signed up')
                 navigate("/")
             },
             onError: (ctx: any) => {
-                // display the error message
                 alert(ctx.error.message);
             },
-        }
+        });
     }
 
     return (
@@ -124,7 +121,7 @@ const Signup = () => {
                 <Button
                     variant="outline" size="lg"
                     className="h-12 w-full cursor-pointer"
-                    onClick={signinWithGoogle}>
+                    onClick={signUpWithGoogle}>
                     <svg className="h-5 w-5 mr-2" viewBox="0 0 24 24">
                         <path
                             fill="currentColor"

@@ -19,7 +19,7 @@ const Profile = () => {
     const [postingModalPop, setPostingModalPop] = useState<boolean>(false)
     const [selectedProperty, setSelectedProperty] = useState<Property>();
 
-    // const { data: session, error: sessionError } = authClient.useSession()
+    const { data: session, error: sessionError } = authClient.useSession()
 
     const { isPending, isError, data: userProperties } = useQuery({
         queryKey: ['userProperties'],
@@ -35,8 +35,7 @@ const Profile = () => {
         staleTime: 5 * 60 * 1000,
     })
 
-    async function openPropertyForm() {
-        const { data: session, error: sessionError } = await authClient.getSession()
+    function openPropertyForm() {
         if (!session?.user || sessionError) {
             navigate('/signup')
         } else setPostingModalPop(true)

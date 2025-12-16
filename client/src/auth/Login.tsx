@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { authClient } from '../lib/auth-client'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { Label } from '@/components/ui/label';
 import { ArrowRight, Eye, EyeOff, Lock, Mail, X } from 'lucide-react';
 
@@ -11,6 +11,7 @@ const Login = () => {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
 
   async function signInUser(e: React.FormEvent<HTMLFormElement>) {
@@ -18,17 +19,18 @@ const Login = () => {
     await authClient.signIn.email({
       email,
       password,
-      callbackURL: '/',
-    }, {
-      onError: (ctx) => {
-        // Handle the error
-        if (ctx.error.status === 403) {
-          alert("Please verify your email address")
+      callbackURL: window.location.origin + '/'
+    },
+      {
+        onSuccess: () => {
+          console.log('Registration successful');
+          alert('successfully logged')
+          navigate("/")
+        },
+        onError: (ctx: any) => {
+          alert(ctx.error.message)
         }
-        //you can also show the original error message
-        alert(ctx.error.message)
-      }
-    })
+      })
   }
 
   async function signinWithGoogle() {
@@ -36,7 +38,6 @@ const Login = () => {
       provider: "google",
       callbackURL: window.location.origin + '/'
     })
-    await authClient.getSession();
   }
 
   return (

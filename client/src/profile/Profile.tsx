@@ -11,6 +11,7 @@ import SavedProperties from '@/dashboard/SavedProperties'
 import Owner from '@/dashboard/property-owner'
 
 const Profile = () => {
+    const API_URL = import.meta.env.VITE_API_URL;
 
     const navigate = useNavigate()
     const queryClient = useQueryClient()
@@ -23,7 +24,7 @@ const Profile = () => {
     const { isPending, isError, data: userProperties } = useQuery({
         queryKey: ['userProperties'],
         queryFn: async () => {
-            const res = await fetch(`http://localhost:8080/api/properties/user`, { credentials: 'include' })
+            const res = await fetch(`${API_URL}/api/properties/user`, { credentials: 'include' })
             if (res.status === 401) {
                 navigate('/login')
                 return
@@ -110,7 +111,7 @@ const Profile = () => {
                         </div>
                     )}
                     <div>
-                        {userProperties && userProperties.length > 0 &&(
+                        {userProperties && userProperties.length > 0 && (
                             <div>
                                 <h2 className="font-semibold">Your properties</h2>
                                 {

@@ -25,7 +25,7 @@ app.use(express.json());
 
 
 app.get('/', (req: Request, res: Response) => {
-    res.status(200).json({ message: 'Server is running',  });
+  res.redirect(process.env.FRONTEND_URL as string);
 });
 app.get("/api/debug", (req, res) => {
   res.json({ routes: "working" });

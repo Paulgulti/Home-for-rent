@@ -3,7 +3,7 @@ import { authClient } from '../lib/auth-client'
 import { Input } from '@/components/ui/input'
 import { Link, useNavigate } from 'react-router'
 import { Button } from '@/components/ui/button'
-import { ArrowRight, Eye, EyeOff, Lock, Mail, User, X } from 'lucide-react'
+import { ArrowRight, Eye, EyeOff, LoaderCircle, Lock, Mail, User, X } from 'lucide-react'
 import { Label } from '@/components/ui/label'
 
 const Signup = () => {
@@ -11,7 +11,8 @@ const Signup = () => {
     const [name, setName] = useState<string>('')
     const [password, setPassword] = useState<string>('')
     const [showPassword, setShowPassword] = useState(false);
-
+    const [signupLoading, setSignupLoading] = useState<boolean>(false)
+    const [signupError, setSignupError] = useState<string | null>(null)
 
     const navigate = useNavigate();
 
@@ -24,6 +25,7 @@ const Signup = () => {
 
     async function registerUser(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
+        setSignupLoading(true)
         await authClient.signUp.email({
             email,
             password,
@@ -31,35 +33,35 @@ const Signup = () => {
             callbackURL: window.location.origin + '/'
         }, {
             onSuccess: () => {
-                console.log('Registration successful');
-                alert('successfully signed up')
-                navigate("/")
+                // alert('successfully signed up');
+                setSignupError(null);
+                setSignupLoading(false);
+                navigate("/");
             },
             onError: (ctx: any) => {
-                alert(ctx.error.message);
+                // alert(ctx.error.message);
+                setSignupError(ctx.error.message);
+                setSignupLoading(false);
             },
         });
     }
 
     return (
         <div className="min-h-screen flex items-center justify-center">
-            <div className="border py-2 md:py-4 px-4 flex flex-col gap-2 md:gap-4 rounded-2xl w-[90%] md:w-[60%] lg:w-[40%] relative">
+            <div className="border py-2 md:py-4 px-4 flex flex-col gap-2 md:gap-4 rounded-2xl w-[90%] md:w-[30%] relative">
                 <Link to={'/'} className="absolute top-1 right-1">
                     <X className="h-6 w-6" />
                 </Link>
-                <div>
-                    <div className='flex justify-center'>
-
-                        <p className='font-display text-xl font-bold text-foreground'>Akeray</p>
-                    </div>
+                <div className='flex justify-center'>
+                    <p className='font-display text-xl font-bold text-foreground'>Akeray</p>
                 </div>
                 <form onSubmit={registerUser} className="flex flex-col items-center gap-2">
-                    <div className="space-y-2">
+                    <div className="space-y-2 w-full">
                         <Label htmlFor="name" className="text-foreground">Full Name</Label>
                         <div className="relative">
                             <User className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                             <Input
-                                className="w-60 md:w-[260px] pl-10 md:h-12 bg-secondary/50 border-border focus:border-primary focus:ring-primary" name="name"
+                                className="pl-10 md:h-12 bg-secondary/50 border-border focus:border-primary focus:ring-primary" name="name"
                                 type="text"
                                 placeholder="name"
                                 value={name}
@@ -68,12 +70,12 @@ const Signup = () => {
                             />
                         </div>
                     </div>
-                    <div className="space-y-2">
+                    <div className="space-y-2 w-full">
                         <Label htmlFor="name" className="text-foreground">Email</Label>
                         <div className="relative">
                             <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                             <Input
-                                className="w-60 md:w-[260px] pl-10 md:h-12 bg-secondary/50 border-border focus:border-primary focus:ring-primary"
+                                className="pl-10 md:h-12 bg-secondary/50 border-border focus:border-primary focus:ring-primary"
                                 name="email"
                                 type="email"
                                 placeholder="email"
@@ -83,12 +85,12 @@ const Signup = () => {
                             />
                         </div>
                     </div>
-                    <div className="space-y-2">
+                    <div className="space-y-2 w-full">
                         <Label htmlFor="name" className="text-foreground">Password</Label>
                         <div className="relative">
                             <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                             <Input
-                                className="w-60 md:w-[260px] pl-10 pr-10 md:h-12 bg-secondary/50 border-border focus:border-primary focus:ring-primary"
+                                className="pl-10 pr-10 md:h-12 bg-secondary/50 border-border focus:border-primary focus:ring-primary"
                                 name="password"
                                 type={showPassword ? "text" : "password"}
                                 placeholder="password"
@@ -105,9 +107,16 @@ const Signup = () => {
                             </button>
                         </div>
                     </div>
-                    <Button type="submit" size="lg" className="w-full group mt-2 hover:cursor-pointer">
+                    {signupError && (
+                        <p className="text-red-500 text-xs">{signupError}</p>
+                    )}
+                    <Button disabled={signupLoading} type="submit" size="lg" className="w-full group mt-2 hover:cursor-pointer">
                         Create Account
-                        <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                        {signupLoading ? (
+                            <LoaderCircle className='h-5 w-5 group-hover:translate-x-1 transition-transform animate-spin' />
+                        ) : (
+                            <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                        )}
                     </Button>
                 </form>
                 <div className="relative">

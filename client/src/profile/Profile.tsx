@@ -72,7 +72,7 @@ const Profile = () => {
     }
 
     return (
-        <div className='py-10 md:py-12 '>
+        <div className='py-10 md:py-12 px-2'>
             {userProperties && userProperties.length === 0 && (
                 <div className="text-sm sticky top-0 left-0 right-0 bg-amber-600 py-1 text-center text-white">
                     <p className='text-center w-[230px] md:w-auto mx-auto animate-pulse leading-4'>Your properties will appear here, once you start posting</p>
@@ -98,11 +98,9 @@ const Profile = () => {
                 </div>
             ) : (
                 <div>
-
                     {isError && (
                         <div className="flex h-screen justify-center items-center">
                             <div className="flex flex-col items-center">
-
                                 <img
                                     className='w-20 h-20'
                                     src="/oops.svg" alt="oops image" />
@@ -132,7 +130,8 @@ const Profile = () => {
                                                         <Button className='bg-red-500' onClick={() => deleteMutation.mutate(property.id)}>Delete</Button>
                                                         <Button
                                                             onClick={() => updatePropertyStatus(property.id)}>
-                                                            Edit</Button>
+                                                            Edit
+                                                        </Button>
                                                         {property.status ? (
                                                             <Button
                                                                 onClick={() => updateStatusMutation.mutate(property)}

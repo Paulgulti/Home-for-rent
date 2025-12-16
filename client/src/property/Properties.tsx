@@ -62,7 +62,7 @@ const Properties = () => {
         </div>
       </section>
       {/* Filters Section */}
-      <section className="pb-3 md:pt-6 md:sticky md:top-10 md:z-40 bg-background/80 backdrop-blur-md border-b border-border">
+      <section className="pb-3 md:pt-6 md:sticky md:top-10 md:z-40">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <PropertyFilters
             searchQuery={searchQuery}
@@ -112,7 +112,7 @@ const Properties = () => {
             </div>
           ) : (
             <div>
-              <div className="my-12">
+              <div className="md:my-12 px-2">
                 <div className="grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                   <PropertyCard houses={pageData.data} />
                 </div>

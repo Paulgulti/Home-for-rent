@@ -4,18 +4,20 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Link, useNavigate } from "react-router";
 import { Label } from '@/components/ui/label';
-import { ArrowRight, Eye, EyeOff, Lock, Mail, X } from 'lucide-react';
+import { ArrowRight, Eye, EyeOff, LoaderCircle, Lock, Mail, X } from 'lucide-react';
 
 
 const Login = () => {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [showPassword, setShowPassword] = useState(false);
+  const [signInLoading, setSignInLoading] = useState<boolean>(false)
+  const [signInError, setSignInError] = useState<string | null>(null)
   const navigate = useNavigate();
-
 
   async function signInUser(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    setSignInLoading(true)
     await authClient.signIn.email({
       email,
       password,
@@ -24,11 +26,14 @@ const Login = () => {
       {
         onSuccess: () => {
           console.log('Registration successful');
-          alert('successfully logged')
+          // alert('successfully logged')
+          setSignInLoading(false)
           navigate("/")
         },
         onError: (ctx: any) => {
-          alert(ctx.error.message)
+          // alert(ctx.error.message)
+          setSignInError(ctx.error.message)
+          setSignInLoading(false)
         }
       })
   }
@@ -42,23 +47,20 @@ const Login = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center">
-      <div className="px-4 border rounded-2xl py-2 md:py-4 flex flex-col gap-2 md:gap-4 w-[90%] md:w-[60%] lg:w-[40%] relative">
+      <div className="px-4 border rounded-2xl py-2 md:py-4 flex flex-col gap-2 md:gap-4 w-[90%] md:w-[30%] relative">
         <Link to={'/'} className="absolute top-3 right-3">
           <X className="h-6 w-6" />
         </Link>
-        <div>
-          <div className='flex justify-center'>
-
-            <p className='font-display text-xl font-bold text-foreground'>Akeray</p>
-          </div>
+        <div className='flex justify-center'>
+          <p className='font-display text-xl font-bold text-foreground'>Akeray</p>
         </div>
         <form onSubmit={signInUser} className="flex flex-col items-center gap-2">
-          <div className="space-y-2">
+          <div className="space-y-2 w-full">
             <Label htmlFor="name" className="text-foreground">Email</Label>
             <div className="relative">
               <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
               <Input
-                className="w-60 md:w-[260px] pl-10 h-12 bg-secondary/50 border-border focus:border-primary focus:ring-primary"
+                className="pl-10 h-12 bg-secondary/50 border-border focus:border-primary focus:ring-primary"
                 name="email"
                 type="email"
                 placeholder="email"
@@ -67,12 +69,12 @@ const Login = () => {
               />
             </div>
           </div>
-          <div className="space-y-2">
+          <div className="space-y-2 w-full">
             <Label htmlFor="name" className="text-foreground">Password</Label>
             <div className="relative">
               <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
               <Input
-                className="w-60 md:w-[260px] pl-10 h-12 bg-secondary/50 border-border focus:border-primary focus:ring-primary"
+                className="pl-10 h-12 bg-secondary/50 border-border focus:border-primary focus:ring-primary"
                 name="password"
                 type="password"
                 placeholder="password"
@@ -88,11 +90,16 @@ const Login = () => {
               </button>
             </div>
           </div>
-
-          <Button type="submit" size="lg" className="w-full group mt-2 hover:cursor-pointer">
+          {signInError && (
+            <p className="text-red-500 text-xs">{signInError}</p>
+          )}
+          <Button disabled={signInLoading} type="submit" size="lg" className="w-full group mt-2 hover:cursor-pointer">
             Login
-            <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
-          </Button>
+            {signInLoading ? (
+              <LoaderCircle className='h-5 w-5 group-hover:translate-x-1 transition-transform animate-spin' />
+            ) : (
+              <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+            )}          </Button>
         </form>
         <div className="relative">
           <div className="absolute inset-0 flex items-center">

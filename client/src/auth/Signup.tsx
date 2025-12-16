@@ -20,6 +20,7 @@ const Signup = () => {
             provider: "google",
             callbackURL: window.location.origin + '/'
         })
+        await authClient.getSession();
     }
 
     async function registerUser(e: React.FormEvent<HTMLFormElement>) {

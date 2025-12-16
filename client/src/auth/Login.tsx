@@ -36,6 +36,7 @@ const Login = () => {
       provider: "google",
       callbackURL: window.location.origin + '/'
     })
+    await authClient.getSession();
   }
 
   return (

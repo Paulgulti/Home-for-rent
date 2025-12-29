@@ -1,4 +1,4 @@
-import { Home, Users, Wrench, BarChart3 } from "lucide-react";
+import { Home, Users, Search, PhoneCall, Smartphone } from "lucide-react";
 
 const features = [
   {
@@ -12,14 +12,19 @@ const features = [
     description: "Easily update your property status or the information you provided about your property.",
   },
   {
-    icon: Wrench,
+    icon: Search,
     title: "Easy Find",
     description: "Tentants browse through dozens of properties by using our search and filtering mechanisms.",
   },
   {
-    icon: BarChart3,
+    icon: PhoneCall,
     title: "No Friction",
     description: "Tenants contact the property owner directly without any middleman.",
+  },
+  {
+    icon: Smartphone,
+    title: "0 hussle",
+    description: "Tenants find their preferred property from the comfort of their place, without needing to navigate every potential property physically.",
   },
 ];
 

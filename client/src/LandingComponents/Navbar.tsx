@@ -1,13 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth-client";
 import { Building2, Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router";
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [openUser, setOpenUser] = useState<boolean>(false);
 
+    
     const navigate = useNavigate()
     const {
         data: session,

@@ -9,6 +9,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { authClient } from '@/lib/auth-client'
 import SavedProperties from '@/dashboard/SavedProperties'
 import Owner from '@/dashboard/property-owner'
+import Footer from '@/LandingComponents/Footer'
 
 const Profile = () => {
     const API_URL = import.meta.env.VITE_API_URL;
@@ -72,95 +73,99 @@ const Profile = () => {
     }
 
     return (
-        <div className='py-10 md:py-12 px-2'>
-            {userProperties && userProperties.length === 0 && (
-                <div className="text-sm sticky top-0 left-0 right-0 bg-amber-600 py-1 text-center text-white">
-                    <p className='text-center w-[230px] md:w-auto mx-auto animate-pulse leading-4'>Your properties will appear here, once you start posting</p>
+        <div>
+            <div className='py-10 md:py-12 px-2'>
+                {userProperties && userProperties.length === 0 && (
+                    <div className="text-sm sticky top-0 left-0 right-0 bg-amber-600 py-1 text-center text-white">
+                        <p className='text-center w-[230px] md:w-auto mx-auto animate-pulse leading-4'>Your properties will appear here, once you start posting</p>
+                    </div>
+                )}
+                <div className='flex items-center'>
+                    <p>You want to post a house?</p>
+                    <Button className="" variant='link' onClick={openPropertyForm}>Click here</Button>
                 </div>
-            )}
-            <div className='flex items-center'>
-                <p>You want to post a house?</p>
-                <Button className="" variant='link' onClick={openPropertyForm}>Click here</Button>
-            </div>
-            {postingModalPop && (
-                <Owner
-                    setPostingModalPop={setPostingModalPop}/>
-            )}
-            {isPending ? (
-                <div className="flex justify-center items-center h-screen w-full">
-                    <svg
-                        className="w-10 h-10 animate-spin "
-                        viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="none" >
-                        <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-                        <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
-                        <g id="SVGRepo_iconCarrier"> <g fill="#000000" fillRule="evenodd" clipRule="evenodd"> <path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8z" opacity=".2"></path> <path d="M7.25.75A.75.75 0 018 0a8 8 0 018 8 .75.75 0 01-1.5 0A6.5 6.5 0 008 1.5a.75.75 0 01-.75-.75z"></path> </g> </g>
-                    </svg>
-                </div>
-            ) : (
-                <div>
-                    {isError && (
-                        <div className="flex h-screen justify-center items-center">
-                            <div className="flex flex-col items-center">
-                                <img
-                                    className='w-20 h-20'
-                                    src="/oops.svg" alt="oops image" />
-                                <p className='text-sm md:text-[16px] max-w-[350px] text-center'>Encountered a problem fetching your properties. <span>Please try again later</span> </p>
-                            </div>
-                        </div>
-                    )}
+                {postingModalPop && (
+                    <Owner
+                        setPostingModalPop={setPostingModalPop} />
+                )}
+                {isPending ? (
+                    <div className="flex justify-center items-center h-screen w-full">
+                        <svg
+                            className="w-10 h-10 animate-spin "
+                            viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="none" >
+                            <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+                            <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier"> <g fill="#000000" fillRule="evenodd" clipRule="evenodd"> <path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8z" opacity=".2"></path> <path d="M7.25.75A.75.75 0 018 0a8 8 0 018 8 .75.75 0 01-1.5 0A6.5 6.5 0 008 1.5a.75.75 0 01-.75-.75z"></path> </g> </g>
+                        </svg>
+                    </div>
+                ) : (
                     <div>
-                        {userProperties && userProperties.length > 0 && (
-                            <div>
-                                <h2 className="font-semibold">Your properties</h2>
-                                {
-                                    userProperties.map(property => (
-                                        <div
-                                            key={property.id}
-                                            className='px-4 mx-auto md:my-5 my-3'>
-                                            <div className='border md:w-[640px] flex flex-col md:flex-row  gap-3 md:gap-10 hover:bg-gray-50'>
-                                                <div className='flex gap-2 md:gap-5'>
-                                                    <img
-                                                        className='w-20 h-25 md:h-30'
-                                                        src={property.propertyImg}
-                                                        alt="Property image" />
-                                                    <p className='w-[200px] text-sm md:text-[16px] text-gray-700'>{property.description}</p>
-                                                </div>
-                                                <div className='flex flex-col md:flex-row md:items-center md:gap-3'>
-                                                    <div className='flex gap-3'>
-                                                        <Button className='bg-red-500' onClick={() => deleteMutation.mutate(property.id)}>Delete</Button>
-                                                        <Button
-                                                            onClick={() => updatePropertyStatus(property.id)}>
-                                                            Edit
-                                                        </Button>
-                                                        {property.status ? (
-                                                            <Button
-                                                                onClick={() => updateStatusMutation.mutate(property)}
-                                                                className='bg-green-400'>{updateStatusMutation.isPending ? 'Loading...' : 'Unmark'}</Button>
-                                                        ) : (
-                                                            <Button
-                                                                onClick={() => updateStatusMutation.mutate(property)}
-                                                                variant={'secondary'}>{updateStatusMutation.isPending ? 'Loading...' : 'Mark as rented'}</Button>
-                                                        )}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {editFormPopup && (
-                                                <EditPropertyInfo
-                                                    setEditFormPopup={setEditFormPopup}
-                                                    selected={selectedProperty!} />
-                                            )}
-                                        </div>
-                                    ))
-                                }
+                        {isError && (
+                            <div className="flex h-screen justify-center items-center">
+                                <div className="flex flex-col items-center">
+                                    <img
+                                        className='w-20 h-20'
+                                        src="/oops.svg" alt="oops image" />
+                                    <p className='text-sm md:text-[16px] max-w-[350px] text-center'>Encountered a problem fetching your properties. <span>Please try again later</span> </p>
+                                </div>
                             </div>
                         )}
+                        <div>
+                            {userProperties && userProperties.length > 0 && (
+                                <div>
+                                    <h2 className="font-semibold">Your properties</h2>
+                                    {
+                                        userProperties.map(property => (
+                                            <div
+                                                key={property.id}
+                                                className='px-4 mx-auto md:my-5 my-3'>
+                                                <div className='md:w-[640px] flex flex-col md:flex-row  gap-3 md:gap-10 hover:bg-gray-50'>
+                                                    <div className='flex gap-2 md:gap-5'>
+                                                        <img
+                                                            className='w-20 h-25 md:h-30'
+                                                            src={property.propertyImg}
+                                                            alt="Property image" />
+                                                        <p className='w-[200px] text-sm md:text-[16px] text-gray-700'>{property.description}</p>
+                                                    </div>
+                                                    <div className='flex flex-col md:flex-row md:items-center md:gap-3'>
+                                                        <div className='flex gap-3'>
+                                                            <Button className='bg-red-500' onClick={() => deleteMutation.mutate(property.id)}>Delete</Button>
+                                                            <Button
+                                                                onClick={() => updatePropertyStatus(property.id)}>
+                                                                Edit
+                                                            </Button>
+                                                            {property.status ? (
+                                                                <Button
+                                                                    onClick={() => updateStatusMutation.mutate(property)}
+                                                                    className='bg-green-400'>{updateStatusMutation.isPending ? 'Loading...' : 'Unmark'}</Button>
+                                                            ) : (
+                                                                <Button
+                                                                    onClick={() => updateStatusMutation.mutate(property)}
+                                                                    variant={'secondary'}>{updateStatusMutation.isPending ? 'Loading...' : 'Mark as rented'}</Button>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {editFormPopup && (
+                                                    <EditPropertyInfo
+                                                        setEditFormPopup={setEditFormPopup}
+                                                        selected={selectedProperty!} />
+                                                )}
+                                            </div>
+                                        ))
+                                    }
+                                </div>
+                            )}
 
+                        </div>
                     </div>
-                </div>
-            )}
-            <SavedProperties />
-            <ToastContainer />
+                )}
+                <SavedProperties />
+                <ToastContainer />
+            </div>
+            <Footer/>
         </div>
+
     )
 }
 

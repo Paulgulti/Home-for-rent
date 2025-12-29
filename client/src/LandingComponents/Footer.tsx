@@ -23,7 +23,7 @@ const Footer = () => {
           </p>
           <div className="flex items-center gap-6">
             <Link to="https://x.com/Paulma00s" target="_blank"  className="text-background/60 hover:text-background transition-colors text-sm">Twitter</Link>
-            <Link to="#" target="_blank" className="text-background/60 hover:text-background transition-colors text-sm">LinkedIn</Link>
+            <Link to="https://www.linkedin.com/in/paulgulti" target="_blank" className="text-background/60 hover:text-background transition-colors text-sm">LinkedIn</Link>
             <Link to="https://github.com/Paulgulti" target="_blank" className="text-background/60 hover:text-background transition-colors text-sm">Github</Link>
           </div>
         </div>

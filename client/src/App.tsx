@@ -19,7 +19,6 @@ function App() {
           <Route path="/dashboard" element={<Profile />} />
           <Route path="properties/:propertyId" element={<PropertyDetail />} />
           <Route path="*" element={<NotFound />} />
-
         </Route>
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />

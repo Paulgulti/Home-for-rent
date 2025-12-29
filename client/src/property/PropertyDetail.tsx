@@ -1,4 +1,5 @@
 import { fetchPropertyDetail } from "@/apis"
+import Footer from "@/LandingComponents/Footer"
 import { publishedDate } from "@/lib/utility"
 import useFavPropertyStore from "@/stores/favouriteProperty"
 import { useQuery } from "@tanstack/react-query"
@@ -14,7 +15,7 @@ const PropertyDetail = () => {
   })
 
   return (
-    <div className="py-10">
+    <div className="">
       {isLoading ? (
         <div className="flex justify-center items-center h-screen w-full">
           <svg
@@ -112,6 +113,10 @@ const PropertyDetail = () => {
         </div>
       )
       }
+      <div className="mt-10">
+
+        <Footer />
+      </div>
     </div >
   )
 }

@@ -14,6 +14,11 @@ const steps = [
     title: "Update status",
     description: "Update information or status of your property easily.",
   },
+  {
+    number: "04",
+    title: "Browse",
+    description: "Browse through countless properties.",
+  },
 ];
 
 const HowItWorks = () => {

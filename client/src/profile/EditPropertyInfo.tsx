@@ -82,7 +82,7 @@ const EditPropertyInfo = ({ setEditFormPopup, selected }: EditPropertyInfoProps)
                 </button>
                 <div className="flex items-center justify-center gap-2 mb-2">
                     <Building2 className="h-8 w-8 text-primary" />
-                    <span className="font-serif text-xl lg:text-2xl text-foreground">PropManage</span>
+                    <span className="font-serif text-xl lg:text-2xl text-foreground">Akeray</span>
                 </div>
                 <form
                     onSubmit={propertyUpdateMutation.mutate}

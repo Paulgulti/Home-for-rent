@@ -117,7 +117,7 @@ const Properties = () => {
                   <PropertyCard houses={pageData.data} />
                 </div>
                 {/* Pagination Controls */}
-                <div className="flex gap-2.5 mt-8 justify-center">
+                <div className="flex gap-2.5 mt-8 justify-center mb-10">
                   <Button className="hover:cursor-pointer" disabled={page <= 1} onClick={() => goToPage(page - 1)}>
                     Prev
                   </Button>

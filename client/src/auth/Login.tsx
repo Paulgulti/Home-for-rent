@@ -76,7 +76,7 @@ const Login = () => {
               <Input
                 className="pl-10 h-12 bg-secondary/50 border-border focus:border-primary focus:ring-primary"
                 name="password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 placeholder="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}

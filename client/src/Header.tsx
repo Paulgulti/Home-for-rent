@@ -1,6 +1,6 @@
 import { Link, Outlet, useNavigate } from 'react-router';
 import { authClient } from './lib/auth-client';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Building2, LogOutIcon, Mail, Menu, User, X } from "lucide-react";
 import { Button } from './components/ui/button';
 
@@ -9,10 +9,23 @@ import { Button } from './components/ui/button';
 const Header = () => {
     const [openUser, setOpenUser] = useState<boolean>(false);
     const [isOpen, setIsOpen] = useState(false);
-    const navigate = useNavigate()
+    const menuRef = useRef<HTMLDivElement | null>(null);
+    const navigate = useNavigate();
 
+    const { data: session } = authClient.useSession();
 
-    const { data: session } = authClient.useSession()
+    useEffect(() => {
+        const handler = (e: MouseEvent) => {
+            const target = e.target as Node;
+            if (menuRef.current && menuRef.current.contains(target)) {
+                return;
+            }
+            setIsOpen(false);
+        };
+
+        document.addEventListener('mousedown', handler);
+        return () => document.removeEventListener('mousedown', handler);
+    }, []);
 
     function signout() {
         authClient.signOut({
@@ -69,7 +82,7 @@ const Header = () => {
                                         <div className="absolute top-full right-0 mt-2 p-2 bg-white border rounded shadow">
                                             <div className="flex items-center gap-2"><User size={16} /><p className='text-sm'>{session?.user.name}</p></div>
                                             <div className="flex items-center gap-2"><Mail size={16} /><p className='text-sm'>{session?.user.email}</p></div>
-                                            <button className="flex items-center gap-2 mt-2 text-sm text-red-600 border px-4 py-1 rounded-md hover:cursor-pointer hover:bg-gray-50" onClick={signout}>Sign out <LogOutIcon size={12}/></button>
+                                            <button className="flex items-center gap-2 mt-2 text-sm text-red-600 border px-4 py-1 rounded-md hover:cursor-pointer hover:bg-gray-50" onClick={signout}>Sign out <LogOutIcon size={12} /></button>
                                         </div>
                                     )}
                                 </div>
@@ -90,7 +103,9 @@ const Header = () => {
                         </div>
                     </div>
                     {isOpen && (
-                        <div className="md:hidden py-4 border-t border-border animate-fade-in">
+                        <div
+                            ref={menuRef} 
+                            className="md:hidden py-4 border-t border-border animate-fade-in z-10">
                             <div className="flex flex-col gap-4">
                                 <Link
                                     className="text-muted-foreground hover:text-foreground transition-colors"
